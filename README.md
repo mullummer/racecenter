@@ -18,3 +18,5 @@ Riders with bib numbers in [green] will be marked green (sprinters)
 Click on a team jersey to switch to mark the team members. Click again to reset
 
 It can be difficult to see if riders are on their spare bike and the data comes from the bike on the car
+
+Live data probably starts when tv coverage starts. 
