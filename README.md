@@ -14,7 +14,7 @@ You can tweak the variables at the top of the script.
 
 A gap larger than [min_gap] seconds creates a new group
 
-Riders slower than [max_slow_speed] km/h will be marked black
+Riders slower than [max_slow_speed] km/h will be marked black. It allows you to quickly identify the riders in a crash.
 
 Riders with bib numbers in [gc] will be marked yellow (gc contenders).
 Riders with bib numbers in [green] will be marked green (sprinters).
