@@ -1,6 +1,6 @@
 // run script in javascript console on the live data page (https://racecenter.criterium-du-dauphine.fr/en)
 // code by @velofacts and @Gnoembah
-var max_gap = 5;
+var min_gap = 4;
 var max_slow_speed = 5;
 var gc = ',11,21,31,33,35,41,44,47,51,54,56,61,63,71,75,81,84,91,101,111,121,125,136,165,176,181,191,201,';
 var green = ',,';
@@ -186,7 +186,7 @@ function start_listening() {
                     var speed = rider.kph;
                     var speedAvg = rider.kphAvg;
                     var extra_class = '';
-                    if ((gap - previous_gap) > max_gap) {
+                    if ((gap - previous_gap) > min_gap) {
                         html += '</div><div class="row group">';
                     }
                     if (selected_team == '') {
