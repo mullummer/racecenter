@@ -12,6 +12,8 @@ https://webmasters.stackexchange.com/questions/8525/how-do-i-open-the-javascript
 
 Riders slower than [max_slow_speed] km/h will be marked black
 
+A gap larger than [min_gap] seconds creates a new group
+
 Riders with bib numbers in [gc] will be marked yellow (gc contenders)
 Riders with bib numbers in [green] will be marked green (sprinters)
 
