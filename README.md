@@ -18,7 +18,7 @@ Riders slower than [max_slow_speed] km/h will be marked black. It allows you to 
 
 Riders with bib numbers in [gc] will be marked yellow (gc contenders).
 Riders with bib numbers in [green] will be marked green (sprinters).
-Start end end these lists also with a comma. For example: ",1,51,61,81,"
+Start and end these lists also with a comma. For example: ",1,51,61,81,"
 
 Click on a team jersey to switch to mark the team members. Click again to reset
 
