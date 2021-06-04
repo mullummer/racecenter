@@ -1,5 +1,9 @@
 # racecenter
 
+Gives a better view of all riders in the peloton at Dauphine/TDF racecenter page/
+For example
+https://twitter.com/velofacts/status/1400448188637605895/photo/1
+
 Run the script in app.js on the javascript console of your browser at
 https://racecenter.criterium-du-dauphine.fr/en
 
