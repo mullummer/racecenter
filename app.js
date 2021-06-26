@@ -49,7 +49,7 @@ var teams = [{
 	"_id": "eb527a08cde713a9d3a4809d1c370a5b2978a29a8c5a6d1d4408ec2d88e74d76"
 }, {
 	"name": "Bora – Hansgrohe",
-	"jersey_sm": null,
+	"jersey_sm": "https://img.aso.fr/core_app/img-cycling-cdd-png/boh/3616/0:0,400:400-60-0-70/7e4f0",
 	"_id": "c75a447aed2f34966bbd982292bea171f49386b756ac024744c1cb74c73f75cc"
 }, {
 	"name": "Deceuninck – Quick-Step",
