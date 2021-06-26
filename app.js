@@ -2,8 +2,10 @@
 // code by @velofacts and @Gnoembah
 var min_gap = 4;
 var max_slow_speed = 5;
-var gc = ',11,21,31,33,35,41,44,47,51,54,56,61,63,71,75,81,84,91,101,111,121,125,136,165,176,181,191,201,';
-var green = ',,';
+var gc = ',1,11,21,22,24,26,36,37,44,51,61,65,67,73,72,81,91,111,125,136,161,174,178,181,201,211,';
+var green = ',12,34,45,55,71,83,95,101,103,105,132,143,151,171,198,208,216,221,';
+var mylist = ',100,20,30,';
+var mycolor = '#ff4500';
 
 var teams = [{
 	"jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/mov/26368/0:0,400:400-60-0-70/ac4b9",
@@ -143,7 +145,7 @@ toggle_pause = function() {
 
 
 var style = document.createElement('style');
-style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .gc div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff} .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause {font-size: 48px;} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
+style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .gc div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .mylist div { background-color: '+ mycolor +'; color: #fff}  .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause {font-size: 48px;} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
 document.head.appendChild(style);
 
 // html
@@ -204,6 +206,9 @@ function start_listening() {
                         }
                         if (green.includes(',' + rider.Bib + ',')) {
                             extra_class += ' green'
+                        }
+			if (mylist.includes(',' + rider.Bib + ',')) {
+                            extra_class += ' mylist'
                         }
                     } else {
                         //
