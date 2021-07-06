@@ -153,7 +153,7 @@ document.getElementById("q-app").innerHTML = '<div id="toolbar"><a href="#" id="
 
 // team jerseys
 for (var i=0; i<teams.length; i++) {
-    document.getElementById('jerseyWrapper').innerHTML += '<a href="#" class="teamJersey" id="team' + i + '" data-id="' + teams[i]._id + '"><img src="' + teams[i].jersey_sm + '"></a>';
+    document.getElementById('jerseyWrapper').innerHTML += '<a href="#" class="teamJersey" id="team' + i + '" data-id="' + teams[i]._id + '" title="'+teams[i].name+'"><img src="' + teams[i].jersey_sm + '"></a>';
 }
 document.getElementById('toolbar').innerHTML += '<img src="https://www.letour.fr/img/global/logo.png" />';
 
@@ -215,7 +215,7 @@ function start_listening() {
                         if (peloton[rider.Bib].$team.split(':')[1] == selected_team) extra_class += ' team';
                     }
                     if (speed < max_slow_speed) extra_class = 'slow';
-                    html += '<div title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h" class="col-md-2 ' + extra_class + '"><div>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
+                    html += '<div title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go" class="col-md-2 ' + extra_class + '"><div>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
                     if (gap > 0) previous_gap = gap;
                 }
                 document.getElementById("rows").innerHTML = html + '</div>';
