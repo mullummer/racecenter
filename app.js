@@ -96,7 +96,7 @@ function start_listening() {
             var d = JSON.parse(e.data);
             var html = '<div class="row group">';
             var previous_gap = 0;
-            if (d.bind == 'telemetryCompetitor-2021') { //was 
+            if (d.bind == 'telemetryCompetitor-2022') { //was 
                 var riders = d.data.Riders;
                 for (var i = 0; i < riders.length; i++) {
                     var rider = riders[i];
