@@ -67,8 +67,8 @@ save_settings = function () {
 // lists of bib numbers
 var list_array = ['gc','pc','my','bp'];
 var lists = [];
-lists['gc'] = {"id" : "gc", "label" : "General classification", "classname" : "gc", "sound" : "", "bibs" : "92,41,47,23,1,35,511,13,61,31,11,21,27,81,111"};
-lists['pc'] = {"id" : "pc", "label" : "Sprinters", "classname" : "green", "sound" : "", "bibs" : ""};
+lists['gc'] = {"id" : "gc", "label" : "General classification", "classname" : "gc", "sound" : "", "bibs" : "1,11,18,21,22,28,31,41,61,71,81,82,91,97,98,124,141,142,147,151,172,185,194,198"};
+lists['pc'] = {"id" : "pc", "label" : "Sprinters", "classname" : "green", "sound" : "", "bibs" : "16,48,51,78,88,105,112,121,125,155,161,171,178,181,201,204,207,216"};
 lists['my'] = {"id" : "my", "label" : "My favourites", "classname" : "mylist", "sound" : "", "bibs" : ""};
 lists['bp'] = {"id" : "bp", "label" : "Play a sound when slower than " + max_slow_speed + "kmh", "classname" : "", "sound" : "sound1", "bibs" : ""};
 for (var i=0; i < list_array.length; i++) {
