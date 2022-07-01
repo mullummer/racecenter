@@ -5,7 +5,7 @@ For example
 https://twitter.com/velofacts/status/1400448188637605895/photo/1
 
 Run the script in app.js on the javascript console of your browser at
-https://racecenter.lavuelta.es/en/
+https://racecenter.letour.fr/en/
 
 Information on where to find the script console here
 https://webmasters.stackexchange.com/questions/8525/how-do-i-open-the-javascript-console-in-different-browsers
