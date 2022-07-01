@@ -52,6 +52,7 @@ var style = document.createElement('style');
 style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .gc div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .mylist div { background-color: '+ mycolor +'; color: #fff}  .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause, #button-settings {font-size: 40px;} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
 style.innerHTML += ' #jerseyWrapper a {width: 3.6%} #jerseyWrapper img {max-width:100%}';
 style.innerHTML += ' #settings { display: none} #settings input {width: 500px;}';
+style.innerHTML += ' .bib {background-color: #fff; color: #000; font-size: 8px; border: 1px solid #000; padding-left: 1px; padding-right: 1px;}';
 document.head.appendChild(style);
 
 // html
@@ -104,11 +105,12 @@ for (var i = 0; i < teams.length; i++) {
     var thisButton = document.getElementById("team" + i);
     thisButton.onclick = select_team;
 }
+// bib numbers
 for (var i=0; i < list_array.length; i++) {
     l = lists[list_array[i]];
     document.getElementById(l.id).onkeyup =  save_settings;
     if (localStorage.getItem(l.id)) {
-        l.bibs = ',' + localStorage.getItem(l) + ','; 
+        l.bibs = ',' + localStorage.getItem(l.id) + ','; 
         document.getElementById(l.id).value = '' + localStorage.getItem(l.id);
     } else {
         document.getElementById(l.id).value = l.bibs;
@@ -171,7 +173,8 @@ function start_listening() {
                         if (peloton[rider.Bib].$team.split(':')[1] == selected_team) extra_class += ' team';
                     }
                     if (speed < max_slow_speed) { extra_class = 'slow'; };
-                    html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="col-md-2 ' + extra_class + '"><div>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
+                    var bib_html = '<span class="bib">'+rider.Bib+'</span> ';
+                    html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="col-md-2 ' + extra_class + '"><div>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
                     if (gap > 0) previous_gap = gap;
                 }
                 if (sound != "") {document.getElementById(sound).play()};
