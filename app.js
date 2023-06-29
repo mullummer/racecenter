@@ -300,3 +300,9 @@ function start_listening() {
         }
     });
 }
+
+
+// for iOS shortcut, unremark
+// var result=[]
+// completion(result)
+
