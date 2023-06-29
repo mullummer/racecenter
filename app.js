@@ -1,11 +1,122 @@
-// run script in javascript console on the live data page (https://racecenter.criterium-du-dauphine.fr/en/)
+// run script in javascript console on the live data page (https://racecenter.letour.fr/en/)
 var min_gap = 4;
 var max_slow_speed = 5;
 var mycolor = '#ff4500';
 var beep_for_all = false;
 var show_bibs = false;
 
-var teams = [{"logo_live":null,"nationality":"bel","nameShort":"ALPECIN-DECEUNINCK","banner":null,"name":"ALPECIN-DECEUNINCK","color":"#000000","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/adc/7705/0:0,400:400-0-0-70/4e343","header":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/adc/7705/0:0,400:400-60-0-70/67e04","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/adc/7732/0:0,400:400-0-0-70/b4be4","code":"ADC","_id":"2e7998e2fcb0e5a8313f67a11a4c8e1a33e6d61db4551d967f7f20e0623b8495","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690872222,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"nameShort":"INTERMARCHÉ - CIRCUS - WANTY","name":"INTERMARCHÉ - CIRCUS - WANTY","code":"ICW","banner":null,"logo_live":null,"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/icw/7740/0:0,400:400-0-0-70/e09fa","nationality":"bel","header":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/icw/7713/0:0,400:400-60-0-70/6ce65","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/icw/7713/0:0,400:400-0-0-70/22270","color":"#000000","_id":"33709cec7175574bb6919a333e94f779f904d47408a9573f0277a52b62a5e1db","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871250,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"color":"#000000","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/cof/7704/0:0,400:400-60-0-70/4b5c8","nameShort":"COFIDIS","banner":null,"header":null,"code":"COF","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/cof/7704/0:0,400:400-0-0-70/4ee91","name":"COFIDIS","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/cof/7736/0:0,400:400-0-0-70/883ce","nationality":"fra","logo_live":null,"_id":"34c054a302dcd386a61dce58799a010c2842a0c3ee38f1f1997abe291013201a","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871615,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"name":"UAE TEAM EMIRATES","logo_live":null,"banner":null,"nameShort":"UAE TEAM EMIRATES","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/uad/7716/0:0,400:400-60-0-70/34121","header":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/uad/7716/0:0,400:400-0-0-70/98a86","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/uad/7753/0:0,400:400-0-0-70/d8f56","color":"#000000","code":"UAD","nationality":"uae","_id":"41dbaf0dec643ae88fe05d7a4d400959daab7161df4904694135c626dc486a07","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871528,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"nationality":"ned","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/dsm/7706/0:0,400:400-60-0-70/0880b","name":"TEAM DSM","nameShort":"TEAM DSM","logo_live":null,"color":"#000000","banner":null,"header":null,"code":"DSM","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/dsm/7706/0:0,400:400-0-0-70/00e4d","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/teamdsm-logo-200928-def-1-scaled/7759/0:0,400:400-0-0-70/0e9bc","_id":"48da095d319f260e098603f6b30f4ce838278236bd30b0044f004bc5a7a3fc1d","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685866816024,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"code":"BOH","nationality":"ger","logo_live":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/boh/7701/0:0,400:400-60-0-70/18f39","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/boh/7735/0:0,400:400-0-0-70/fcb8a","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/boh/7701/0:0,400:400-0-0-70/ff645","name":"BORA - HANSGROHE","banner":null,"header":null,"color":"#000000","nameShort":"BORA - HANSGROHE","_id":"4a7b4e459def0333a705666bfa217889d91cdda5460b945cd6817a48cb785b50","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690870888,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"nationality":"ned","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/tjv/7752/0:0,400:400-0-0-70/e491f","logo_live":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/tjv/7721/0:0,400:400-0-0-70/b3390","color":"#000000","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/tjv/7721/0:0,400:400-60-0-70/14fa0","name":"JUMBO-VISMA","banner":null,"code":"TJV","header":null,"nameShort":"JUMBO-VISMA","_id":"4dd0bbc6b5d3abcd7cee87b13b74a4f460bc00dbf482c0852219881254b52d67","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690870829,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"nameShort":"TEAM JAYCO ALULA","color":"#000000","header":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/jay/7712/0:0,400:400-0-0-70/7c98f","name":"TEAM JAYCO ALULA","nationality":"aus","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/jay/7712/0:0,400:400-60-0-70/793e0","code":"JAY","banner":null,"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/jay/7742/0:0,400:400-0-0-70/bc803","logo_live":null,"_id":"4e18e1a45d121f101f39eab80657e35f9511a0b251869b8ee78e3395982eef80","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871901,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/act/7722/0:0,400:400-0-0-70/73e16","nationality":"fra","banner":null,"code":"ACT","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/act/7722/0:0,400:400-60-0-70/f01ad","logo_live":null,"color":"#000000","name":"AG2R CITROEN TEAM","nameShort":"AG2R CITROEN TEAM","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/act/7731/0:0,400:400-0-0-70/37649","header":null,"_id":"5d1951b74f18bad9683830a34dfec75103bb012d27562aa62de1fbbd0207938e","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690870982,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"code":"TBV","nationality":"brn","banner":null,"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/tbv/7747/0:0,400:400-0-0-70/ad5f1","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/tbv/7718/0:0,400:400-0-0-70/54bb8","logo_live":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/tbv/7718/0:0,400:400-60-0-70/94e6d","name":"BAHRAIN VICTORIOUS","header":null,"nameShort":"BAHRAIN VICTORIOUS","color":"#000000","_id":"63067e0c483a6a65975862850c3bc6e187b7997e9e354d6cd206b08accefe8e8","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690870860,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"nationality":"bel","code":"SOQ","name":"SOUDAL QUICK-STEP","nameShort":"SOUDAL QUICK-STEP","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/soq/7746/0:0,400:400-0-0-70/55069","logo_live":null,"color":"#000000","banner":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/soq/7720/0:0,400:400-0-0-70/0a867","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/soq/7720/0:0,400:400-60-0-70/ba292","header":null,"_id":"6e3f3b02cacd861d79cac625860f5acd497fad093a401ef90a86b582d6543fb9","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871045,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/gfc/7739/0:0,400:400-0-0-70/5eb5f","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/gfc/7708/0:0,400:400-60-0-70/a1866","color":"#000000","nameShort":"GROUPAMA - FDJ","banner":null,"code":"GFC","name":"GROUPAMA - FDJ","logo_live":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/gfc/7708/0:0,400:400-0-0-70/204e0","header":null,"nationality":"fra","_id":"799cb2fe04aac99c2887e20e5d40ba62c906090ab96a09087c9b13ffdf9e5e78","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871064,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/tfs/7749/0:0,400:400-0-0-70/aee0e","code":"TFS","header":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/tfs/7717/0:0,400:400-0-0-70/4ebd7","logo_live":null,"nameShort":"TREK - SEGAFREDO","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/tfs/7717/0:0,400:400-60-0-70/4a1b9","color":"#000000","name":"TREK - SEGAFREDO","banner":null,"nationality":"usa","_id":"7cc793b117a0bc305ca76fb7c5ed2728a89e457e881d3b0ccbbd2c5f9f68bd1a","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871437,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"color":"#000000","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/ast/7703/0:0,400:400-60-0-70/b3345","code":"AST","banner":null,"name":"ASTANA QAZAQSTAN TEAM","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/ast/7734/0:0,400:400-0-0-70/64301","nameShort":"ASTANA QAZAQSTAN TEAM","logo_live":null,"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/ast/7703/0:0,400:400-0-0-70/51e75","header":null,"nationality":"kaz","_id":"819f881392cdff245364f90350e03a37ad8c1d83d96b57189e9dcd98296b7821","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690872336,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"header":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/mov/7714/0:0,400:400-60-0-70/1de2f","color":"#000000","code":"MOV","nationality":"esp","banner":null,"nameShort":"MOVISTAR TEAM","logo_live":null,"name":"MOVISTAR TEAM","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/mov/7714/0:0,400:400-0-0-70/60286","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/mov/7744/0:0,400:400-0-0-70/82f7d","_id":"9743fd658bb8cc6cfe75c15f9a142aa3a5b3c18864a156c484c1bb52cd54537f","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871352,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/igd/7709/0:0,400:400-0-0-70/7848a","name":"INEOS GRENADIERS","banner":null,"header":null,"logo_live":null,"code":"IGD","nameShort":"INEOS GRENADIERS","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/igd/5832/0:0,400:400-0-0-70/6a35a","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/igd/7709/0:0,400:400-60-0-70/6ea48","color":"#000000","nationality":"gbr","_id":"9c811ca3e9110686691a37298a72adfe27496f29674f53e7ee8023355df2cade","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685866753062,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"header":null,"logo_live":null,"color":"#000000","name":"TOTALENERGIES","code":"TEN","nationality":"fra","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/totalenergies-2023-ok/7760/0:0,400:400-60-0-70/fc70b","nameShort":"TOTALENERGIES","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/totalenergies-2023-ok/7760/0:0,400:400-0-0-70/6df9e","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/ten/7748/0:0,400:400-0-0-70/81916","banner":null,"_id":"d2147524c5ea27b7c8fd4bed1c799c7941ce066911ee1ccdb96c25856e14a201","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690872036,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/efe/7707/0:0,400:400-60-0-70/28a5f","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/efe/7707/0:0,400:400-0-0-70/4bb31","header":null,"name":"EF EDUCATION - EASYPOST","banner":null,"code":"EFE","nameShort":"EF EDUCATION - EASYPOST","logo_live":null,"nationality":"usa","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/efe/7737/0:0,400:400-0-0-70/39262","color":"#000000","_id":"e5416674b5165b1db7719e25156f9510f14b42652f31b2c5b594cee068305cb3","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871147,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"code":"LTD","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/ltd/7710/0:0,400:400-60-0-70/2c2f8","logo_live":null,"color":"#000000","nationality":"bel","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/ltd/7710/0:0,400:400-0-0-70/257ff","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/ltd/7743/0:0,400:400-0-0-70/e67ff","name":"LOTTO DSTNY","nameShort":"LOTTO DSTNY","banner":null,"header":null,"_id":"f234858c35d9c25a13c7639dc266b53fe10a04db3261203ded3ebce4943ce762","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871809,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/uxt/7719/0:0,400:400-0-0-70/5aad6","header":null,"nationality":"nor","code":"UXT","banner":null,"logo_live":null,"color":"#000000","jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/uxt/7719/0:0,400:400-60-0-70/0598a","name":"UNO-X PRO CYCLING TEAM","nameShort":"UNO-X PRO CYCLING TEAM","logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/uxt/7751/0:0,400:400-0-0-70/11545","_id":"f69003c94c6470b685e868c27c57d8ce726378c2c68ec67ea15203d040837922","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690871717,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"},{"logo":"https://img.aso.fr/core_app/img-cycling-cdd-jpg/ark/7733/0:0,400:400-0-0-70/efa83","nationality":"fra","header":null,"jersey_sm":"https://img.aso.fr/core_app/img-cycling-cdd-png/ark/7702/0:0,400:400-60-0-70/90faa","name":"TEAM ARKEA - SAMSIC","banner":null,"color":"#000000","jersey":"https://img.aso.fr/core_app/img-cycling-cdd-png/ark/7702/0:0,400:400-0-0-70/83235","logo_live":null,"nameShort":"TEAM ARKEA - SAMSIC","code":"ARK","_id":"ff3583cbb31d23316be08a4d105004035295d542e20c0c37295a1134e993f775","_bind":"team-2023","_origin":"team-2023","_updatedAt":1685690872427,"_parent":"millesime:cf767f97ce4f968a23c8754b16f6fe31b2fcd581698c1c03f3e5dfb16fb929e2","_key":"code"}];
+var teams = [
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/icw/46335/0:0,400:400-60-0-70/5930f",
+        "name": "INTERMARCHÉ - CIRCUS - WANTY",
+        "_id": "06796f14b6642ea65463e04726d0d2e17db95b74ecda0a0c2c6c896ee38216d0"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/jayco-tdf2023-ok/44310/0:0,400:400-60-0-70/255fd",
+        "name": "TEAM JAYCO ALULA",
+        "_id": "18345795da1c4ae101c308f20b5f4cfd358ede004df0b73dd583fa3a075926f5"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/cof/43924/0:0,400:400-60-0-70/55056",
+        "name": "COFIDIS",
+        "_id": "290d6dcdfc87c5c0453181878a4e5096942f6d774a2049743122a5757c7efade"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/totalenergies-2023-ok/44002/0:0,400:400-60-0-70/5639d",
+        "name": "TOTALENERGIES",
+        "_id": "2e53b28e21bf56e88f61eaccad641a2ae82d809c9bb2b21bbf15a9c08f43127d"
+    },
+    {
+       "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/ltd/43929/0:0,400:400-60-0-70/e1deb",
+        "name": "LOTTO DSTNY",
+        "_id": "2f130ac127e8965af56cadbbdbd608a201a8a40b489d1f8174e591308271d721"
+    },
+    {
+        "name": "LIDL - TREK",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/tfs/43934/0:0,400:400-60-0-70/ff3a7",
+        "_id": "50b28508612b93309162a60d25b4470193ceb1a8eced74426d1a701bacf8299a"
+    },
+    {
+        "name": "ASTANA QAZAQSTAN TEAM",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/ast/46333/0:0,400:400-60-0-70/5c3a4",
+        "_id": "5678c4db8ea91671ff95186921b3530d9d1dece2cf304d4a07545c1c1bdbe2f2"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/uad/43933/0:0,400:400-60-0-70/12918",
+        "name": "UAE TEAM EMIRATES",
+        "_id": "77cd687ee6acb184544026eb3e29d0acc2b56a5c89a57d97ce368bb56f158e5d"
+    },
+    {
+        "name": "GROUPAMA - FDJ",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/gfc/43925/0:0,400:400-60-0-70/6b54f",
+        "_id": "7875cacfeaaa718fb9d9541a1268f9235f231e002868bb7539da113f9ed05453"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/mov/43937/0:0,400:400-60-0-70/d2cbb",
+        "name": "MOVISTAR TEAM",
+        "_id": "90583386b101bf9bd4524179534d127f76022173838d0882e79c0a5b9605eb0c"
+    },
+    {
+        "name": "ISRAEL - PREMIER TECH",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/ipt/43928/0:0,400:400-60-0-70/71979",
+        "_id": "98c29c8a888652c9bab9fa4bc23b1229b869098aed60e41e88a3421cb374b270"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/adc/43919/0:0,400:400-60-0-70/2cf15",
+        "name": "ALPECIN-DECEUNINCK",
+        "_id": "b1317197fb1f302d01c8e4b9f300dba0c04a8be414e7b85714f3fdf60e863ca1"
+    },
+    {
+        "name": "JUMBO-VISMA",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/jumbo-visma-tdf2023-ok/44265/0:0,400:400-60-0-70/9b8be",
+        "_id": "c48afbc384cc1098bdc4c2c2c67332c391c27a6dd4e6c24091ba50673176de79"
+    },
+    {
+        "name": "AG2R CITROEN TEAM",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/act/43920/0:0,400:400-60-0-70/efe69",
+        "_id": "c56e5c95498ea716010b90d8e667d3e6f0af1d62eb23045a2e9d4f255a058943"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/boh/43921/0:0,400:400-60-0-70/5f21f",
+        "name": "BORA - HANSGROHE",
+        "_id": "c97f7cc0dccbe3b76de2907e057ae09acb98992ca25f6181e09506114c5fab43"
+    },
+    {
+        "name": "UNO-X PRO CYCLING TEAM",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/uxt/46334/0:0,400:400-60-0-70/147c6",
+        "_id": "ceec967b4f567c70e48c1c9ddc8b568b5ace245dabf285c3403ef670f842bb78"
+    },
+    {
+        "name": "TEAM ARKEA - SAMSIC",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/ark/43918/0:0,400:400-60-0-70/4f7d6",
+        "_id": "d3adc84711a939dcc1b43a4815ae3761bb829e7be86c5b977134e8dee762aa47"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/tbv/43931/0:0,400:400-60-0-70/d7f9e",
+        "name": "BAHRAIN VICTORIOUS",
+        "_id": "d4d35a8e45fe8c7a51efc672df8fc77db2f71baf0e671af8f01a489df975521b"
+    },
+    {
+        "name": "INEOS GRENADIERS",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/igd/43939/0:0,400:400-60-0-70/3ae5f",
+        "_id": "e5a6bd9a1c3d330370be9ca8f58c9f22c57c5df90ec033b93a9c02f57dece07d"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/dsm/46257/0:0,400:400-60-0-70/9a414",
+        "name": "TEAM DSM - FIRMENICH",
+        "_id": "e779e9a2e3b27a3e6d8f9ace1bda1d84bec495b0818b6453dfc9daec45d474c3"
+    },
+    {
+        "name": "SOUDAL QUICK-STEP",
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/soq/43936/0:0,400:400-60-0-70/1fc63",
+        "_id": "fc53db3214cbbb8220710df97e19392c182707b3f2cb943e7852fed663e3187a"
+    },
+    {
+        "jersey_sm": "https://img.aso.fr/core_app/img-cycling-tdf-png/efe/44844/0:0,400:400-60-0-70/22b06",
+        "name": "EF EDUCATION - EASYPOST",
+        "_id": "fec6fcdb878bb292a072c29b1694b38e80cc8c4fdcecd19d9e030330346eb3cd"
+    }
+]
 var xmlhttp = new XMLHttpRequest();
 var url = "/api/allCompetitors-2023";
 var peloton = [];
@@ -86,7 +197,7 @@ document.getElementById("settings").innerHTML += '<p><br>sound sample, mute if n
 for (var i=0; i<teams.length; i++) {
     document.getElementById('jerseyWrapper').innerHTML += '<a href="#" class="teamJersey" id="team' + i + '" data-id="' + teams[i]._id + '" title="'+teams[i].name+'"><img src="' + teams[i].jersey_sm + '"></a>';
 }
-document.getElementById('toolbar').innerHTML += '<img src="img/logo.b143143b.png" />';
+document.getElementById('toolbar').innerHTML += '<img src="img/logo.f4376aa6.png" />';
 
 // click events
 // pause button
