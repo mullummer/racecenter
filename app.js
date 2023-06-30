@@ -180,10 +180,10 @@ save_settings = function () {
 // lists of bib numbers
 var list_array = ['gc','pc','my','bp'];
 var lists = [];
-lists['gc'] = {"id" : "gc", "label" : "General classification", "classname" : "gc", "sound" : "", "bibs" : ""};
-lists['pc'] = {"id" : "pc", "label" : "Sprinters", "classname" : "green", "sound" : "", "bibs" : ""};
+lists['gc'] = {"id" : "gc", "label" : "General classification", "classname" : "gc", "sound" : "", "bibs" : "1,11,19,21,25,26,27,31,41,62,71,81,83,91,114,121,131,133,141,151,161,204,206"};
+lists['pc'] = {"id" : "pc", "label" : "Sprinters", "classname" : "green", "sound" : "", "bibs" : "6,56,64,76,86,106,111,122,128,148,157,164,177,181,191,201,207,211,218"};
 lists['my'] = {"id" : "my", "label" : "My favourites", "classname" : "mylist", "sound" : "", "bibs" : ""};
-lists['bp'] = {"id" : "bp", "label" : "Play a sound when slower than " + max_slow_speed + "kmh", "classname" : "", "sound" : "sound1", "bibs" : ""};
+lists['bp'] = {"id" : "bp", "label" : "Play a sound when slower than " + max_slow_speed + "kmh", "classname" : "", "sound" : "sound1", "bibs" : "1,11,19,21,25,26,27,31,41,62,71,81,83,91,114,121,131,133,141,151,161,204,206,6,56,64,76,86,106,111,122,128,148,157,164,177,181,191,201,207,211,218"};
 for (var i=0; i < list_array.length; i++) {
     l = lists[list_array[i]];
     document.getElementById("settings").innerHTML += '<input type="text" id="'+l.id+'" placeholder="comma separated list of bib numbers">'+l.label+'<br>';
