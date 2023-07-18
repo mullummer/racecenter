@@ -291,7 +291,7 @@ function start_listening() {
                     if (speed < max_slow_speed) { extra_class = 'slow'; };
                     bib_html = '';
                     if (rider.Bib != '13' && rider.kmToFinish > 0) {
-                        html += '<td class="r">' + rider.Bib + '</td><td>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname  + '</td><td class="r">' + Math.round(speed) + '</td><td class="r">' + rider.kmToFinish + '</td><td>' + gap + '</td>';
+                        html += '<td class="r">' + rider.Bib + '</td><td>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname  + '</td><td class="r">' + Math.round(speed) + '</td><td class="r">' + rider.kmToFinish + '</td><td class="r">' + gap + '</td>';
                         html += '<td class="r">' + Math.round(100 * gap / (22.4 - rider.kmToFinish)) / 100 + 's per km</td>';
                         html += '<td class="r">' + Math.round(100 * (22.4 - rider.kmToFinish) / 22.4) + '%</td>';
                     }
