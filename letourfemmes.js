@@ -291,9 +291,7 @@ function start_listening() {
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
-                    if (rider.Bib != '13') {
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="col-md-2 ' + extra_class + '"><div>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
-                    }
+                    html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="col-md-2 ' + extra_class + '"><div>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
                     if (gap > 0) previous_gap = gap;
                 }
                 if (sound != "") {document.getElementById(sound).play()};
