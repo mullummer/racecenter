@@ -7,11 +7,6 @@ var default_settings = {
     beep_for_all: false,
     refresh_rate: 1
 }
-if(!localStorage.getItem(race + '-settings')) {
-    settings = default_settings;
-} else {
-    settings = eval('(' + localStorage.getItem(race + '-settings') + ')');
-}
 
 var show_bibs = false;
 d = new Date();
@@ -36,6 +31,13 @@ var selectedRider;
 var selectedSegment;
 var stageDistance;
 var segmentMapping = [];
+
+if(!localStorage.getItem(race + '-settings')) {
+    settings = default_settings;
+} else {
+    console.log('load settings');
+    settings = eval('(' + localStorage.getItem(race + '-settings') + ')');
+}
 
 str_pad_left = function(string, pad, length) {
     return (new Array(length + 1).join(pad) + string).slice(-length);
@@ -93,10 +95,11 @@ style.innerHTML += ' #settings { display: none} #settings input {width: 500px;}'
 style.innerHTML += ' .bib {background-color: #fff; color: #000; font-size: 8px; border: 1px solid #000; padding-left: 1px; padding-right: 1px;}';
 style.innerHTML += ' .color {border: 1px solid #000; padding: 2px; } .color div {height: 65px;} ';
 style.innerHTML += ' h4 { background-color: #fee5d9; border-bottom: 1px solid #ba4a19 } ';
+style.innerHTML += ' #efforts { padding: 8px} #efforts table {width: 100%} #efforts td { padding: 2px} ';
 document.head.appendChild(style);
 
 // html
-document.getElementById("q-app").innerHTML = '<div id="toolbar"><a href="#" id="pause"><i id="pause-icon" class="fas fa-pause-circle"></i></a><a href="#" id="button-settings"><i id="settings-icon" class="fas fa-wrench"></i></a><a id="button-peloton"><i id="peloton-icon" class="fas fa-bicycle"></i></a><a id="button-segments"><i id="segments-icon" class="fas fa-clock"></i></a><span class="distance"><span id="distance">...</span> km</span><div id="jerseyWrapper"></div></div><div id="settings"></div><div id="ridercard" class="row"></div><div id="rows">&nbsp; waiting for data...</div><div id="segments" class="row"><div id="segments_form"></div><div id="segment_list" class="col-3"></div><div id="efforts" class="col-9"></div></div>';
+document.getElementById("q-app").innerHTML = '<div id="toolbar"><a href="#" id="pause"><i id="pause-icon" class="fas fa-pause-circle"></i></a><a href="#" id="button-settings"><i id="settings-icon" class="fas fa-wrench"></i></a><a id="button-peloton"><i id="peloton-icon" class="fas fa-bicycle"></i></a><a id="button-segments"><i id="segments-icon" class="fas fa-clock"></i></a><span class="distance"><span id="distance">...</span> km</span><div id="jerseyWrapper"></div></div><div id="settings"></div><div id="ridercard" class="row"></div><div id="rows">&nbsp; waiting for data...</div><div id="segments" class="row"><div id="segments_form"></div><div class="row"><div id="segment_list" class="col-3"></div><div id="efforts" class="col-9"></div></div></div>';
 
 // segments
 document.getElementById('segments_form').innerHTML = '<p>Segment in stage <select id="form_stage"></select> starts at (km) <input id="form_start" type="number"> and ends at <input id="form_end" type="number">. Name: <input id="form_name" type="text"><button id="form_button">Add Segment</button>'
@@ -178,6 +181,7 @@ loadStages = function (xhttp) {
         tmp.sort(function (a,b) {if (a.date < b.date) {return -1} else {return 1}})
         var first_date = '9999-99-99';
         var last_date = '0000-00-00';
+        daySelect = document.getElementById('form_stage');
         for (var i=0; i<tmp.length; i++) {
             stage_date = tmp[i].date.substring(0,10);
             if (stage_date > last_date) last_date = stage_date;
@@ -187,7 +191,6 @@ loadStages = function (xhttp) {
 
             stages[stage_date] = tmp[i];
             // add options to form
-            daySelect = document.getElementById('form_stage');
             myOption = document.createElement("option");
             myOption.text = tmp[i].name;
             myOption.value = stage_date;
@@ -195,6 +198,7 @@ loadStages = function (xhttp) {
         }
         if (today < first_date) today = first_date;
         if (today > last_date) today = last_date;
+        daySelect.value = today;
 
         currentStage = stages[today];
         stageDistance = currentStage.length;
@@ -245,9 +249,9 @@ readSegments = function () {
         segments = eval(s);
         for (var i=0; i < segments.length; i++) {
             segmentMapping[segments[i].id] = i;
-            if(segments[i].date == today) {
-                todaysSegments.push(segments[i]);
-            }
+//            if(segments[i].date == today) {
+//               todaysSegments.push(segments[i]);
+//            }
             readEfforts(segments[i].id);
         }
     } else {
@@ -273,14 +277,17 @@ saveEfforts = function (id) {
 }
 
 compareEffort = function (a, b) {
-    var ca = (!a.duration) ? 10000000 + (!a.starttime ? 10000000 : a.starttime) : a.duration;
-    var cb = (!b.duration) ? 10000000 + (!b.starttime ? 10000000 : b.starttime) : b.duration;
-    if (ca < cb) {
-        return -1
-    } else if (ca > cb) {
-        return 1
-    }
-    return 0
+    if (a && b) {
+        console.log(b);
+        var ca = (!a.duration) ? 10000000 + (!a.starttime ? 10000000 : a.starttime) : a.duration;
+        var cb = (!b.duration) ? 10000000 + (!b.starttime ? 10000000 : b.starttime) : b.duration;
+        if (ca < cb) {
+            return -1
+        } else if (ca > cb) {
+            return 1
+        }
+        return 0
+    } else return 2;
 }
 
 showEfforts = function (idx) {
@@ -290,26 +297,34 @@ showEfforts = function (idx) {
     } else {
         var segment = segments[segmentMapping[idx]];
     }
+    // remember for auto represh
     selectedSegment = segment.id;
+    // titles
     var html = '<h2>'+stages[segment.date].name+'</h2>';
+    html += '<h5>' + segment.name + '</h5>';
     var selected_efforts = efforts[segment.id];
+    var show_efforts = [];
     // collect efforts that have started
-    for (var bib=0; i < selected_efforts.length; bib++) {
-        var effort = segments[segment.id].efforts[bib];
-        effort.bib = bib;
-        if (effort.starttime) {
-            selected_efforts.push(effort);
+    for (var bib=0; bib < selected_efforts.length; bib++) {
+        var effort = selected_efforts[bib];
+        if (effort && effort.starttime) {
+            effort.bib = bib;
+            show_efforts.push(effort);
         }
     }
     // order by duration / starttime
-    selected_efforts.sort(compareEffort);
+    show_efforts.sort(compareEffort);
     // generate table with results 
     html += '<table>';
-    for(var i=0; i < selected_efforts; i++) {
-        var e = selected_efforts[i];
+    for(var i=0; i < show_efforts.length; i++) {
+        var e = show_efforts[i];
+        var t1 = new Date(e.starttime * 1000);
+        t1 = t1.toTimeString().substring(0,8);
+        var t2 = (e.endtime) ? new Date(e.endtime * 1000) : '';
+        if (t2 != '') t2 = t2.toTimeString().substring(0,8);
         html += '<tr><td>' + e.bib + '</td><td>' + peloton[e.bib].lastnameshort + ' ' + peloton[e.bib].firstname;
-        html += '</td><td>' + pretyTime(e.starttime);
-        html += '</td><td>' + pretyTime(e.endtime);
+        html += '</td><td>' + t1;
+        html += '</td><td>' + t2;
         html += '</td><td>' + pretyTime(e.duration);
         html += '</td></tr>';
     }
@@ -319,6 +334,12 @@ showEfforts = function (idx) {
 }
 
 showSegments = function () {
+    todaysSegments = [];
+    for (var i = 0; i < segments.length; i++) {
+        if (segments[i].date == today) {
+            todaysSegments.push(segments[i]);
+        }
+    }
     var html = '';
     for (let s in stages) {
         html += '<h4>' + stages[s].name + '</h4>';
@@ -328,6 +349,8 @@ showSegments = function () {
             }
         }
     }
+
+
     document.getElementById('segment_list').innerHTML = html;
 
     for (var i = 0; i < segments.length; i++) {
@@ -406,6 +429,13 @@ riderCard = function (bib) {
         colorButtons[i].onclick = function () { 
             console.log(this.id);
             settings.riders[selectedRider] = { color: this.id };
+            var elm = document.getElementById('r' + selectedRider);
+            elm.className = elm.className.replace("yellow","");
+            elm.className = elm.className.replace("green","");
+            elm.className = elm.className.replace("orange","");
+            elm.className = elm.className.replace("white","");
+            elm.className += ' ' + this.id
+            saveSettings();
         }
     }
     document.getElementById('close-rider-card').onclick = function () {
@@ -530,11 +560,11 @@ function startListening() {
 
 
                         // if position within 200 meters after finish and !finish
-                        if (distanceFromSegmentStart <= 0 && distanceFromSegmentStart >= -0.2 && !efforts[segment.id][bib].afterStart) {
+                        if (distanceFromSegmentEnd <= 0 && distanceFromSegmentEnd >= -0.2 && !efforts[segment.id][bib].afterEnd) {
                             // remember data
                             efforts[segment.id][bib].afterEnd = rider;
                             efforts[segment.id][bib].afterEnd.timeStamp = timeStamp;
-                            efforts[segment.id][bib].afterEnd.distance = -1 * distanceFromSegmentStart;
+                            efforts[segment.id][bib].afterEnd.distance = -1 * distanceFromSegmentEnd;
                             if (efforts[segment.id][bib].beforeEnd) {
                                 // estimate time at the end
                                 efforts[segment.id][bib].endtime = getTimeStamp(
