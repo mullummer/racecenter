@@ -278,7 +278,6 @@ saveEfforts = function (id) {
 
 compareEffort = function (a, b) {
     if (a && b) {
-        console.log(b);
         var ca = (!a.duration) ? 10000000 + (!a.starttime ? 10000000 : a.starttime) : a.duration;
         var cb = (!b.duration) ? 10000000 + (!b.starttime ? 10000000 : b.starttime) : b.duration;
         if (ca < cb) {
@@ -299,6 +298,7 @@ showEfforts = function (idx) {
     }
     // remember for auto represh
     selectedSegment = segment.id;
+    console.log(selectedSegment);
     // titles
     var html = '<h2>'+stages[segment.date].name+'</h2>';
     html += '<h5>' + segment.name + '</h5>';
