@@ -446,7 +446,7 @@ riderCard = function (bib) {
 getTimeStamp = function (distanceBefore, distanceAfter, timeStampBefore, timeStampAfter) {
     var distance = distanceBefore + distanceAfter;
     if (distance == 0) {
-        return timestapBefore;
+        return timestampBefore;
     } else {
         var deltaTime = timeStampAfter - timeStampBefore;
         return timeStampBefore + (distanceBefore / distance) * deltaTime;
