@@ -237,6 +237,10 @@ generateSegments = function  () {
     addSegment('2024-06-03', 124.4 - 7, 124.4, 'Côte de Saint-Georges-en-Couzan (872 m)');
     addSegment('2024-06-03', 134.3 - 3.1, 134.3, 'Col de La Croix Ladret (1060 m))');
 
+    addSegment('2024-06-04', 84.94, 87.66, 'Climb to Saint-Victor-Sur-Arlanc');
+    addSegment('2024-06-04', 121.54, 124.94, 'Montée de Retournac');
+    addSegment('2024-06-04', 164.6, 173.92, 'Descent before final climb');
+    addSegment('2024-06-04', 177.78, 181.26, 'La Vacheresse -> Les Estables');
     
     saveSegments();
     readSegments();
