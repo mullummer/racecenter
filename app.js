@@ -232,18 +232,24 @@ addSegment = function (d,start,end,name,bottom,top) {
 }
 
 generateSegments = function  () {
-    addSegment('2024-06-03', 45.1 - 5.3, 45.1, 'Côte de Fagot (699 m)');
-    addSegment('2024-06-03', 67.4 - 4.5, 67.4, 'Col Saint-Thomas (936 m)');
-    addSegment('2024-06-03', 124.4 - 7, 124.4, 'Côte de Saint-Georges-en-Couzan (872 m)');
-    addSegment('2024-06-03', 134.3 - 3.1, 134.3, 'Col de La Croix Ladret (1060 m))');
+    var version = 0;
+    if (localStorage.getItem(race + '-version')) {
+        version = parseInt(localStorage.getItem(race + '-version'));
+    }
+    if (1 == 0) {
+        addSegment('2024-06-03', 45.1 - 5.3, 45.1, 'Côte de Fagot (699 m)');
+        addSegment('2024-06-03', 67.4 - 4.5, 67.4, 'Col Saint-Thomas (936 m)');
+        addSegment('2024-06-03', 124.4 - 7, 124.4, 'Côte de Saint-Georges-en-Couzan (872 m)');
+        addSegment('2024-06-03', 134.3 - 3.1, 134.3, 'Col de La Croix Ladret (1060 m))');
 
-    addSegment('2024-06-04', 84.94, 87.66, 'Climb to Saint-Victor-Sur-Arlanc');
-    addSegment('2024-06-04', 121.54, 124.94, 'Montée de Retournac');
-    addSegment('2024-06-04', 164.6, 173.92, 'Descent before final climb');
-    addSegment('2024-06-04', 177.78, 181.26, 'La Vacheresse -> Les Estables');
-    
-    saveSegments();
-    readSegments();
+    }
+    if (version < 6) {
+        addSegment('2024-06-07', 120.6, 129.38, 'Col du Granier')
+        addSegment('2024-06-07', 129.54, 136.1, 'Col du Granier, descent')
+        addSegment('2024-06-07', 162.76, 173.8, 'Le Collet d Allevard')
+    }
+
+    localStorage.setItem(race + '-version','6');
 }
 
 readSegments = function () {
@@ -253,14 +259,11 @@ readSegments = function () {
         segments = eval(s);
         for (var i=0; i < segments.length; i++) {
             segmentMapping[segments[i].id] = i;
-//            if(segments[i].date == today) {
-//               todaysSegments.push(segments[i]);
-//            }
             readEfforts(segments[i].id);
         }
-    } else {
-        generateSegments();
     }
+    generateSegments();
+    saveSegments();
 }
 
 saveSegments = function () {
@@ -282,6 +285,7 @@ saveEfforts = function (id) {
 
 compareEffort = function (a, b) {
     if (a && b) {
+        console.log(b);
         var ca = (!a.duration) ? 10000000 + (!a.starttime ? 10000000 : a.starttime) : a.duration;
         var cb = (!b.duration) ? 10000000 + (!b.starttime ? 10000000 : b.starttime) : b.duration;
         if (ca < cb) {
@@ -302,10 +306,10 @@ showEfforts = function (idx) {
     }
     // remember for auto represh
     selectedSegment = segment.id;
-    console.log(selectedSegment);
+    var stage = stages[segment.date];
     // titles
     var html = '<h2>'+stages[segment.date].name+'</h2>';
-    html += '<h5>' + segment.name + '</h5>';
+    html += '<p>' + segment.name + ' | from ' + Math.round(segment.start * 100) / 100 + 'km to ' + Math.round(segment.end * 100)/100 + 'km | distance ' + Math.round((segment.end - segment.start)*100)/100 +'km | starts at '+Math.round((stage.length - segment.start)*100)/100+'km to go</p>';
     var selected_efforts = efforts[segment.id];
     var show_efforts = [];
     // collect efforts that have started
@@ -338,31 +342,31 @@ showEfforts = function (idx) {
 }
 
 showSegments = function () {
+    // today's segments for adding efforts
     todaysSegments = [];
     for (var i = 0; i < segments.length; i++) {
         if (segments[i].date == today) {
             todaysSegments.push(segments[i]);
         }
     }
+    // segments for selection of efforts
     var html = '';
     for (let s in stages) {
-        html += '<h4>' + stages[s].name + '</h4>';
-        for (var i = 0; i < segments.length; i++) {
-            if (segments[i].date == s) {
-                html += '<div><a class="cursor-pointer" idx="'+i+'" id="' + segments[i].id + '">'+segments[i].name+'</a></div>';
+        if (s >= today) {
+            html += '<h4>' + stages[s].name + '</h4>';
+            for (var i = 0; i < segments.length; i++) {
+                if (segments[i].date == s) {
+                    html += '<div><a class="cursor-pointer" idx="'+i+'" id="' + segments[i].id + '">'+segments[i].name+'</a></div>';
+                }
             }
         }
     }
-
-
     document.getElementById('segment_list').innerHTML = html;
-
     for (var i = 0; i < segments.length; i++) {
         document.getElementById(segments[i].id).onclick=function () {
             showEfforts(this.getAttribute('idx'));
         }
     }
-
 }
 
 mySegment = function() {
@@ -450,7 +454,7 @@ riderCard = function (bib) {
 getTimeStamp = function (distanceBefore, distanceAfter, timeStampBefore, timeStampAfter) {
     var distance = distanceBefore + distanceAfter;
     if (distance == 0) {
-        return timeStampBefore;
+        return timestapBefore;
     } else {
         var deltaTime = timeStampAfter - timeStampBefore;
         return timeStampBefore + (distanceBefore / distance) * deltaTime;
