@@ -248,8 +248,16 @@ generateSegments = function  () {
         addSegment('2024-06-07', 129.54, 136.1, 'Col du Granier, descent')
         addSegment('2024-06-07', 162.76, 173.8, 'Le Collet d Allevard')
     }
+    if (version < 7) {
+        addSegment('2024-06-08', 79.56, 85.96, 'Montée d Arâches');
+        addSegment('2024-06-08', 90.46, 96.62, 'Montée d Arâches descent');
+        addSegment('2024-06-08', 104.14, 118.04, 'Col de la Ramaz');
+        addSegment('2024-06-08', 118.14, 133.96, 'Ramaz downhill to Taninges');
+        addSegment('2024-06-08', 133.96, 145.74, 'Flat before final climb');
+        addSegment('2024-06-08', 145.74, 155.26, 'Samoëns 1600 par l Etelley');
+    }
 
-    localStorage.setItem(race + '-version','6');
+    localStorage.setItem(race + '-version','7');
 }
 
 readSegments = function () {
