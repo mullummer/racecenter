@@ -321,11 +321,13 @@ showEfforts = function (idx) {
     var selected_efforts = efforts[segment.id];
     var show_efforts = [];
     // collect efforts that have started
-    for (var bib=0; bib < selected_efforts.length; bib++) {
-        var effort = selected_efforts[bib];
-        if (effort && effort.starttime) {
-            effort.bib = bib;
-            show_efforts.push(effort);
+    if (selected_efforts) {
+        for (var bib=0; bib < selected_efforts.length; bib++) {
+            var effort = selected_efforts[bib];
+            if (effort && effort.starttime) {
+                effort.bib = bib;
+                show_efforts.push(effort);
+            }
         }
     }
     // order by duration / starttime
