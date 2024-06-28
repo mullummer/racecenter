@@ -89,13 +89,21 @@ togglePause = function() {
 document.body.className = document.body.className.replace("body--dark","");
 
 var style = document.createElement('style');
-style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .yellow div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .orange div { background-color: '+ settings.mycolor +'; color: #fff}  .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause, #button-settings, #button-peloton, #button-segments {font-size: 40px; margin-left: 2px} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
+style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .yellow div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .orange div { background-color: '+ settings.mycolor +'; color: #fff}  .slow span {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause, #button-settings, #button-peloton, #button-segments {font-size: 40px; margin-left: 2px} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
 style.innerHTML += ' #jerseyWrapper a {width: 2.5%} #jerseyWrapper img {max-width:100%}';
 style.innerHTML += ' #settings { display: none} #settings input {width: 500px;}';
 style.innerHTML += ' .bib {background-color: #fff; color: #000; font-size: 8px; border: 1px solid #000; padding-left: 1px; padding-right: 1px;}';
 style.innerHTML += ' .color {border: 1px solid #000; padding: 2px; } .color div {height: 65px;} ';
 style.innerHTML += ' h4 { background-color: #fee5d9; border-bottom: 1px solid #ba4a19 } ';
 style.innerHTML += ' #efforts { padding: 8px} #efforts table {width: 100%} #efforts td { padding: 2px} ';
+style.innerHTML += ' #efforts table td, #efforts table th { text-align: right} ';
+style.innerHTML += ' #efforts table td.l { text-align: left} ';
+style.innerHTML += ' #segments_form { padding-top: 5px; padding-bottom: 5px;} ';
+style.innerHTML += ' #form_start, #form_end { width: 80px;} ';
+style.innerHTML += ' #segment_list > div { border-bottom: 1px solid #000} ';
+style.innerHTML += ' #efforts a{ color: #fc5200} ';
+
+
 document.head.appendChild(style);
 
 // html
@@ -210,7 +218,7 @@ loadStages = function (xhttp) {
     }
 }
 
-addSegment = function (d,start,end,name,bottom,top) {
+addSegment = function (d,start,end,name,strava) {
     start = parseFloat(start);
     end  = parseFloat(end);
     if (name == '') {name = 'Segment ' + start + ' - ' + end}
@@ -223,8 +231,7 @@ addSegment = function (d,start,end,name,bottom,top) {
                 "start" : start,
                 "end" : end,
                 "name" : name,
-                "bottom" : bottom,
-                "top" : top,
+                "strava" : strava,
                 "distance" : end - start
             }
         )
@@ -236,28 +243,99 @@ generateSegments = function  () {
     if (localStorage.getItem(race + '-version')) {
         version = parseInt(localStorage.getItem(race + '-version'));
     }
-    if (1 == 0) {
-        addSegment('2024-06-03', 45.1 - 5.3, 45.1, 'Côte de Fagot (699 m)');
-        addSegment('2024-06-03', 67.4 - 4.5, 67.4, 'Col Saint-Thomas (936 m)');
-        addSegment('2024-06-03', 124.4 - 7, 124.4, 'Côte de Saint-Georges-en-Couzan (872 m)');
-        addSegment('2024-06-03', 134.3 - 3.1, 134.3, 'Col de La Croix Ladret (1060 m))');
+    if (version < 8) {
+        addSegment('2024-06-29',39.94,44.54,'San Godenzo(fine paese)-->Cavallino(bivio 3 faggi)',3924978)
+        addSegment('2024-06-29',75.14,77.84,'Sp24 Climb',1439320)
+        addSegment('2024-06-29',87.68,98.46,'Carnaio da santa sofia fino al bar',15711521)
+        addSegment('2024-06-29',129.78,134.18,'BARBOTTO',18325988)
+        addSegment('2024-06-29',130.16,140.04,'Mercato - Perticara',26174087)
+        addSegment('2024-06-29',152.38,157.16,'Salita San Leo da Secchiano',15799223)
+        addSegment('2024-06-29',162.84,167.02,'Via Montemaggio, 109 Climb',763322)
+        addSegment('2024-06-29',172.72,175.6,'Salita: Fiorentino da Chiesanuova',1282316)
+        addSegment('2024-06-29',175.7,179.24,'da_Rotonda Fiorentino (480m) a_Rotonda V. Fed. D\'Urbino (650m)',25880893)
+        addSegment('2024-06-29',177.26,179.26,'Murata_Vecchia Stazione Climb',6695531)
+        addSegment('2024-06-30',71.92,74.02,'Monticino (da Brisighella)',1254541)
+        addSegment('2024-06-30',136.6,140.16,'Botteghino di zocca',1472407)
+        addSegment('2024-06-30',147.88,150.72,'Rastignano - Montecalvo',6649583)
+        addSegment('2024-06-30',165.86,170.46,'San Luca orfanalle + Montealbano',12999239)
+        addSegment('2024-07-01',154.32,156.38,'Barbaresco (Neive Via Tanaro)',36946526)
+        addSegment('2024-07-01',178,181.06,'Côte de Sommariva Perno',36944531)
+        addSegment('2024-07-02',40.86,50.36,'Pragelato-Sestriere',25065812)
+        addSegment('2024-07-02',41.76,50.8,'Pragelato - Colle del Sestriere',4787732)
+        addSegment('2024-07-02',43.48,50.48,'Sestriere (Traverses)',5394780)
+        addSegment('2024-07-02',47.7,50.4,'salita sestriere da bivio borgata',25052649)
+        addSegment('2024-07-02',94.24,120.64,'149 Col du Galibier #100cols',17975187)
+        addSegment('2024-07-02',99.96,111.82,'Col du Lautaret',5906900)
+        addSegment('2024-07-02',112.1,120.66,'Col du Lautaret - Col du Galibier',18328881)
+        addSegment('2024-07-03',139.68,142.72,'Côte de Lhuis',36903320)
+        addSegment('2024-07-06',30.12,32.46,'Côte de Villy-en-Auxois',37052530)
+        addSegment('2024-07-06',35.86,38.74,'Côte de Verrey-sous-Salmaise',36945716)
+        addSegment('2024-07-06',110.5,113.08,'D129 Climb',742691)
+        addSegment('2024-07-07',66.78,69.48,'Côte de Baroville',37052658)
+        addSegment('2024-07-07',105.18,107.4,'Côte de Val Frion',37052677)
+        addSegment('2024-07-10',87.32,89.68,'Auliac Premier Climb',4472185)
+        addSegment('2024-07-10',164.8,168.64,'Col de Néronne',1974281)
+        addSegment('2024-07-10',164.86,179.96,'Col de Neronne + Puy Mary - LaFlammeRouge verified',25674914)
+        addSegment('2024-07-10',174.58,180,'Pas de Peyrol (Puy Mary)',12403656)
+        addSegment('2024-07-10',191.88,196.32,'Col du Perthus',12403896)
+        addSegment('2024-07-10',205.04,208.36,'Col de Font de Cère',12617625)
+        addSegment('2024-07-11',60.12,62.8,'Côte d\'Autoire',36944344)
+        addSegment('2024-07-11',82.16,84.2,'D32 Climb',808540)
+        addSegment('2024-07-11',133.44,135.46,'Côte de Montcléra',37052970)
+        addSegment('2024-07-13',61.52,64.06,'Tourmalet from west, approach segment',618330)
+        addSegment('2024-07-13',71.7,89.4,'Col du Tourmalet (Esterre STOP - top)',10432453)
+        addSegment('2024-07-13',81.36,89.48,'Tourmalet - Official Climb - from Super Bareges - VeloTopo.com',17767064)
+        addSegment('2024-07-13',84.62,89.58,'last 5k',12993508)
+        addSegment('2024-07-13',106.72,123.42,'Hourquette d\'Ancizan - Official TDF Climb - from Ste-Marie - VeloTopo.com',14629962)
+        addSegment('2024-07-13',116.32,123.4,'_Hourquette_depuis_rivière',14736253)
+        addSegment('2024-07-13',141.16,148.56,'PLAT D\'ADET - 1ère partie - Espiaube',15772992)
+        addSegment('2024-07-13',146.24,148.56,'Soulan - Espiaube',18340407)
+        addSegment('2024-07-14',1.7,6.72,'loudervielle - col de Peyresourde 5km',18385037)
+        addSegment('2024-07-14',2.44,4.92,'Epingle Dr. - prairies de Balestas 2.5',20913118)
+        addSegment('2024-07-14',40.1,45.1,'Col de Mentre',24695157)
+        addSegment('2024-07-14',43.88,49.9,'sortie boutx-mente',15262303)
+        addSegment('2024-07-14',61.4,65.34,'Portet-d\'Aspet - Official TDF Climb - from Casartelli Monument - VeloTopo.com',17974321)
+        addSegment('2024-07-14',129.06,138.6,'Col D\'Agnès (Aulus)',15694069)
+        addSegment('2024-07-14',143.38,147.12,'Lers - Depuis croisement Agnes',25161765)
+        addSegment('2024-07-14',181.82,197.46,'Plateau du Beille No26 Greatest TDF Climbs',16621310)
+        addSegment('2024-07-14',192.42,197.58,'Beille Last 5s',10545411)
+        addSegment('2024-07-17',138.88,145.62,'Col Bayard',36908137)
+        addSegment('2024-07-17',160.06,166.24,'Col du Noyer',36152797)
+        addSegment('2024-07-17',173.76,176.94,'Montée Superdévoluy',5115480)
+        addSegment('2024-07-18',0.02,2.82,'Montée virage route de veynes',25566301)
+        addSegment('2024-07-18',28.18,30.64,'D937 Climb',1094291)
+        addSegment('2024-07-18',55.42,57.7,'Route Du Coin Climb',717475)
+        addSegment('2024-07-18',71.88,74.42,'Maissorel Climb',4132450)
+        addSegment('2024-07-18',92.2,95.62,'Montée de manse',18431847)
+        addSegment('2024-07-18',113.98,120.84,'montée de saint apo entière',9334954)
+        addSegment('2024-07-18',135.44,139.34,'Côte des Demoiselles Coiffées',15510278)
+        addSegment('2024-07-19',23.78,42.52,'Col de Vars (Guillestre)',15768721)
+        addSegment('2024-07-19',64.3,87.44,'Jausiers - Cime de la Bonette',22987963)
+        addSegment('2024-07-19',65.34,86.4,'Col de la Bonette',17922529)
+        addSegment('2024-07-19',84.96,87.38,'LAST 2.5KM',15640495)
+        addSegment('2024-07-19',128.44,144.28,'Isola - Isola 2000 (Rond-point)',15181142)
+        addSegment('2024-07-19',128.46,131.66,'Isola section Lombarde',17922834)
+        addSegment('2024-07-19',141.46,144.28,'mene to isola 2000 climb',18043539)
+        addSegment('2024-07-20',9.24,13.3,'Route de Tram',3347315)
+        addSegment('2024-07-20',14.82,24.7,'Col de Braus Officiel',26485936)
+        addSegment('2024-07-20',14.84,24.68,'COL DE BRAUS (FULL / CORRECT LENGTH)',9600585)
+        addSegment('2024-07-20',14.86,18.96,'L\'Escarène > Saint-Laurent-du-Touët by Blausasc trail',25509791)
+        addSegment('2024-07-20',19.5,22.32,'BRAUS: SWITCHBACKS - LONG VERSION',9630474)
+        addSegment('2024-07-20',21.54,24.7,'Braus (last 3km)',14343073)
+        addSegment('2024-07-20',35.82,59.76,'Col de Turini',16273563)
+        addSegment('2024-07-20',38.14,45.34,'montée avant moulinet',12453557)
+        addSegment('2024-07-20',38.96,59.76,'Climb Turini officiel ASPC',12051162)
+        addSegment('2024-07-20',49.12,59.76,'climb Turini final officiel ASPC',12051177)
+        addSegment('2024-07-20',79.08,95.86,'DEMARENATOR Colmiane',20216158)
+        addSegment('2024-07-20',88.06,90.84,'Route De La Colmiane Climb',1429213)
+        addSegment('2024-07-20',90.52,95.58,'Col de st martin',19879013)
+        addSegment('2024-07-20',117.1,130.06,'Couillole Partiel',14334653)
+        addSegment('2024-07-21',5.42,11.08,'Mont des Mules',581403)
+        addSegment('2024-07-21',5.6,9.9,'Mont des Mules Officiel',28085500)
+        addSegment('2024-07-21',5.9,9.42,'Souvenir Bajoli',11242721)
+        }
 
-    }
-    if (version < 6) {
-        addSegment('2024-06-07', 120.6, 129.38, 'Col du Granier')
-        addSegment('2024-06-07', 129.54, 136.1, 'Col du Granier, descent')
-        addSegment('2024-06-07', 162.76, 173.8, 'Le Collet d Allevard')
-    }
-    if (version < 7) {
-        addSegment('2024-06-08', 79.56, 85.96, 'Montée d Arâches');
-        addSegment('2024-06-08', 90.46, 96.62, 'Montée d Arâches descent');
-        addSegment('2024-06-08', 104.14, 118.04, 'Col de la Ramaz');
-        addSegment('2024-06-08', 118.14, 133.96, 'Ramaz downhill to Taninges');
-        addSegment('2024-06-08', 133.96, 145.74, 'Flat before final climb');
-        addSegment('2024-06-08', 145.74, 155.26, 'Samoëns 1600 par l Etelley');
-    }
-
-    localStorage.setItem(race + '-version','7');
+    localStorage.setItem(race + '-version','8');
 }
 
 readSegments = function () {
@@ -278,6 +356,28 @@ saveSegments = function () {
     localStorage.setItem(race + '-segments',JSON.stringify(segments));
 }
 
+deleteSegment = function(id) {
+    // remove efforts
+    efforts[id] = null;
+    saveEfforts(id);
+
+    // remove segment
+    var idx = false;
+    for (var i=0; i < segments.length; i++) {
+        if(segments[i].id == id) {
+            idx = i;
+        }
+    }
+    segments.splice(idx,1);
+    saveSegments();
+    if (id == selectedSegment) {
+        selectedSegment = '';
+        document.getElementById('efforts').innerHTML = '';
+    }
+
+    showSegments();
+}
+
 
 readEfforts = function (id) {
     if (localStorage.getItem(id)) {
@@ -293,7 +393,6 @@ saveEfforts = function (id) {
 
 compareEffort = function (a, b) {
     if (a && b) {
-        console.log(b);
         var ca = (!a.duration) ? 10000000 + (!a.starttime ? 10000000 : a.starttime) : a.duration;
         var cb = (!b.duration) ? 10000000 + (!b.starttime ? 10000000 : b.starttime) : b.duration;
         if (ca < cb) {
@@ -305,19 +404,88 @@ compareEffort = function (a, b) {
     } else return 2;
 }
 
+wkg = function(low, high, distance, duration, RiderWeight) {
+
+    var result = {};
+
+	// used constants and settings
+    var celsius = 20;
+	var ZeroKelvin = -273.15;
+	var BikeWeight = 8.2;
+	var P0  = 101325;
+	var Rs = 287.058;
+	var CwaHigh = 0.3500;
+	var CwaLow = 0.2625;    
+	var FrictionCoefficient = 0.0050;
+	var g = 9.80665;
+
+	// Velocity
+	var Velocity = 1000 * distance / duration; // m/s
+    var VelocityKmh = distance / (duration / 3600); // km/h
+    result.velocity = Math.round(VelocityKmh*10)/10;
+
+
+	// ********* Air Density
+	// Convert celsius to Kelvin
+	var T = celsius - ZeroKelvin;
+	// Air Pressure
+	var p = P0 * (1-6.5*((high - low)/2)/288000) ** 5.256;
+	// Air Density
+	var AirDensity = p / (Rs * T);
+
+	// Slope
+	var Slope = (high - low) / (distance * 1000);
+
+	// Power Air
+	var PowerAirHigh = 0.5 * CwaHigh * AirDensity * Velocity ** 3;
+	var PowerAirLow = 0.5 * CwaLow * AirDensity * Velocity ** 3;
+    result.PowerAirHigh = PowerAirHigh;
+    result.PowerAirLow = PowerAirLow;
+
+	// Power Rolling Resistance
+	var PowerRolling =  (RiderWeight + BikeWeight) * g * FrictionCoefficient * Velocity;
+
+	// Power Climb
+	var VelocityClimb = (Slope * Velocity) / Math.sqrt(1 + Slope * Slope);
+	var PowerClimb = (RiderWeight + BikeWeight) * g * VelocityClimb;
+
+	// Total Power
+	var PowerTotalHigh = PowerAirHigh + PowerRolling + PowerClimb;
+    result.powerTotalHigh = Math.round(PowerTotalHigh);
+	var PowerTotalLow = PowerAirLow + PowerRolling + PowerClimb;
+    result.powerTotalLow = Math.round(PowerTotalLow);
+
+    // W/kg
+    result.wkgHigh = Math.round(10 * PowerTotalHigh / RiderWeight)/10;
+    result.wkgLow = Math.round(10 * PowerTotalLow / RiderWeight)/10;
+
+	// Return the result of the function
+	return result;
+}
+
+
+
 showEfforts = function (idx) {
-    console.log(idx);
     if (segments[idx]) {
         var segment = segments[idx];
     } else {
         var segment = segments[segmentMapping[idx]];
     }
+    var start_altitude = 0;
+    var start_altitude_count = 0;
+    var end_altitude = 0;
+    var end_altitude_count = 0;
     // remember for auto represh
     selectedSegment = segment.id;
     var stage = stages[segment.date];
     // titles
-    var html = '<h2>'+stages[segment.date].name+'</h2>';
-    html += '<p>' + segment.name + ' | from ' + Math.round(segment.start * 100) / 100 + 'km to ' + Math.round(segment.end * 100)/100 + 'km | distance ' + Math.round((segment.end - segment.start)*100)/100 +'km | starts at '+Math.round((stage.length - segment.start)*100)/100+'km to go</p>';
+    var html = '<h2><span id="stage_title">' + stages[segment.date].name + '</span></h2>';
+    html += '<p><span id="segment_title">' + segment.name + '</span>'
+    if (segment.strava) html += ' <a target="_blank" style="color: fc5200" href="https://www.strava.com/segments/' + segment.strava + '">View on strava</a>';
+    html += ' | from ' + Math.round(segment.start * 100) / 100 + 'km to ' + Math.round(segment.end * 100)/100 + 'km | distance ' + Math.round((segment.end - segment.start)*100)/100 +'km | starts at '+Math.round((stage.length - segment.start)*100)/100+'km to go</p>';
+    html += '<p>start altitude <span id="start_altitude">NA</span>, end altitude <span id="end_altitude">NA</span>, gradient <span id="gradient">NA</span>  </p>';
+    html += '<p><button id="button_download">Download Results</button> <button id="button_segment_delete">Delete Segment</button></p>';
+    html += '<p></p>';
     var selected_efforts = efforts[segment.id];
     var show_efforts = [];
     // collect efforts that have started
@@ -326,29 +494,84 @@ showEfforts = function (idx) {
             var effort = selected_efforts[bib];
             if (effort && effort.starttime) {
                 effort.bib = bib;
+                if (effort.beforeStart) {
+                    start_altitude += effort.beforeStart.mAlt;
+                    start_altitude_count++;
+                }
+                if (effort.afterStart) {
+                    start_altitude += effort.afterStart.mAlt;
+                    start_altitude_count++;
+                }
+                if (effort.beforeEnd) {
+                    end_altitude += effort.beforeEnd.mAlt;
+                    end_altitude_count++;
+                }
+                if (effort.afterEnd) {
+                    end_altitude += effort.afterEnd.mAlt;
+                    end_altitude_count++;
+                }
                 show_efforts.push(effort);
             }
         }
     }
+    if (start_altitude_count > 0) {
+        start_altitude = parseInt(start_altitude / start_altitude_count);
+    }
+    if (end_altitude_count > 0) {
+        end_altitude = parseInt(end_altitude / end_altitude_count);
+    }
+
     // order by duration / starttime
     show_efforts.sort(compareEffort);
     // generate table with results 
-    html += '<table>';
+    html += '<div id="efforts_download"><table id="efforts_table">';
+    html += '<thead><tr><th><br>bib</th><th></th><th><br>Started</th><th><br>Finished</th><th><br>Duration</th><th>W/kg<br>Full drafting</th><th>W/kg<br>No drafting</th><th><br>km/h</th></tr></thead>'
     for(var i=0; i < show_efforts.length; i++) {
         var e = show_efforts[i];
         var t1 = new Date(e.starttime * 1000);
         t1 = t1.toTimeString().substring(0,8);
         var t2 = (e.endtime) ? new Date(e.endtime * 1000) : '';
         if (t2 != '') t2 = t2.toTimeString().substring(0,8);
-        html += '<tr><td>' + e.bib + '</td><td>' + peloton[e.bib].lastnameshort + ' ' + peloton[e.bib].firstname;
+
+        var details = wkg(start_altitude, end_altitude, segment.end - segment.start, e.duration, 65);
+        html += '<tr><td>' + e.bib + '</td><td class="l">' + peloton[e.bib].lastnameshort + ' ' + peloton[e.bib].firstname;
         html += '</td><td>' + t1;
         html += '</td><td>' + t2;
-        html += '</td><td>' + pretyTime(e.duration);
+        if (t1 && t2) {
+            html += '</td><td>' + pretyTime(e.duration);
+            html += '</td><td>' + details.wkgLow;
+            html += '</td><td>' + details.wkgHigh;
+            html += '</td><td>' + details.velocity;
+        } else {
+            html += '</td><td></td><td></td><td></td><td>';
+        }
         html += '</td></tr>';
     }
 
+    html += '</table></div>';
+    html += '<br><p>W/kg numbers are based on 65kg rider and 8.2kg Bike+gear</p>'
+
     // show results
-    document.getElementById('efforts').innerHTML = html + '</table>';
+    document.getElementById('efforts').innerHTML = html;
+
+    if (start_altitude_count > 0) {
+        document.getElementById('start_altitude').innerHTML = start_altitude + 'm';
+    }
+    if (end_altitude_count > 0) {
+        document.getElementById('end_altitude').innerHTML = end_altitude + 'm';
+        var gradient = 100 * (end_altitude - start_altitude) / (1000 * (segment.end - segment.start));
+        gradient = Math.round(gradient * 10) / 10;
+        document.getElementById('gradient').innerHTML = gradient + '%';
+    }
+    document.getElementById('button_download').onclick = downloadResults;
+    document.getElementById('button_segment_delete').onclick = function () {
+        if (document.getElementById('button_segment_delete').innerHTML == 'Delete Segment') {
+            document.getElementById('button_segment_delete').innerHTML = 'Click again to delete';
+        } else {
+            deleteSegment(selectedSegment);
+        }
+    };
+    
 }
 
 showSegments = function () {
@@ -395,6 +618,20 @@ mySegment = function() {
     document.getElementById('form_name').value = '';
 }
 document.getElementById('form_button').onclick = mySegment;
+
+
+download = function (text, filename){
+    var blob = new Blob([text], {type: "text/html"});
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+}
+
+downloadResults = function () {
+    download(document.getElementById('efforts_download').innerHTML,(document.getElementById('stage_title').innerHTML + '-' + document.getElementById('segment_title').innerHTML).replace(/[^a-zA-Z0-9]/g, '-'));
+}
 
 // settings form
 document.getElementById('min_gap').value = settings.min_gap;
@@ -466,7 +703,7 @@ riderCard = function (bib) {
 getTimeStamp = function (distanceBefore, distanceAfter, timeStampBefore, timeStampAfter) {
     var distance = distanceBefore + distanceAfter;
     if (distance == 0) {
-        return timestapBefore;
+        return timeStampBefore;
     } else {
         var deltaTime = timeStampAfter - timeStampBefore;
         return timeStampBefore + (distanceBefore / distance) * deltaTime;
@@ -511,7 +748,7 @@ function startListening() {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
                     if (rider.Bib != '13') {
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + pretyTime(gap) + '</div></div>';
+                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + pretyTime(gap) + '</span></div></div>';
                     }
                     if (gap > 0) previous_gap = gap;
 
@@ -606,10 +843,6 @@ function startListening() {
                             // refresh efforts
                             if (segment.id == selectedSegment) showEfforts(selectedSegment); 
                         }
-
-
-
-
 
                     }
                     // end todaysSegments loop
