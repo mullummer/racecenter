@@ -733,7 +733,7 @@ function startListening() {
                         html += '</div><div class="row group">';
                     }
                     if (settings.beep_for_all && speed < settings.max_slow_speed) {
-                        sound = 'dummy';
+                        sound = 'sound1';
                     }
                     if (selected_team == '') {
                         if (settings.riders[bib]) {
@@ -742,7 +742,7 @@ function startListening() {
                     } else {
                         if (peloton[rider.Bib].$team.split(':')[1] == selected_team) extra_class += ' team';
                     }
-                    if (speed < settings.max_slow_speed) { extra_class = 'slow'; };
+                    if (speed < settings.max_slow_speed) { extra_class += ' slow'; };
                     bib_html = '';
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
