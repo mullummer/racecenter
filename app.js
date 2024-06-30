@@ -343,8 +343,8 @@ readSegments = function () {
     if (s) {
         s = eval(s);
         segments = eval(s);
+        segmentMapping();
         for (var i=0; i < segments.length; i++) {
-            segmentMapping[segments[i].id] = i;
             readEfforts(segments[i].id);
         }
     }
@@ -352,8 +352,15 @@ readSegments = function () {
     saveSegments();
 }
 
+segmentMapping = function () {
+    for (var i=0; i < segments.length; i++) {
+        segmentMapping[segments[i].id] = i;
+    }
+}
+
 saveSegments = function () {
     localStorage.setItem(race + '-segments',JSON.stringify(segments));
+    segmentMapping();
 }
 
 deleteSegment = function(id) {
@@ -463,6 +470,21 @@ wkg = function(low, high, distance, duration, RiderWeight) {
 	return result;
 }
 
+calcTime = function (data, stageDistance) {
+    // calculate timeFromStart by using distance and average speed
+    var result = {};
+    var speed = data.kphAvg;
+    var t = data.timeStamp;
+    var distance = stageDistance - data.kmToFinish;
+    var seconds = (distance / speed) * 3600.0;
+    result.seconds = seconds;
+    result.timeFromStart = pretyTime(seconds);
+    var t = data.timeStamp - seconds * 1000;
+    t = new Date(t);
+    console.log(t);
+    result.start = t.toTimeString().substring(0,8);
+    return result;
+}
 
 
 showEfforts = function (idx) {
@@ -514,12 +536,15 @@ showEfforts = function (idx) {
             }
         }
     }
+    var gradient;
     if (start_altitude_count > 0) {
         start_altitude = parseInt(start_altitude / start_altitude_count);
     }
     if (end_altitude_count > 0) {
         end_altitude = parseInt(end_altitude / end_altitude_count);
+        gradient = 100 * (end_altitude - start_altitude) / (1000 * (segment.end - segment.start));
     }
+
 
     // order by duration / starttime
     show_efforts.sort(compareEffort);
@@ -536,11 +561,23 @@ showEfforts = function (idx) {
         var details = wkg(start_altitude, end_altitude, segment.end - segment.start, e.duration, 65);
         html += '<tr><td>' + e.bib + '</td><td class="l">' + peloton[e.bib].lastnameshort + ' ' + peloton[e.bib].firstname;
         html += '</td><td>' + t1;
+        /*
+        if (t1) {
+            realtime = calcTime(effort.afterStart, stage.length);
+            html += '</td><td>' + realtime.start;
+        } else {
+            html += '</td><td>';
+        }
+        */
         html += '</td><td>' + t2;
         if (t1 && t2) {
             html += '</td><td>' + pretyTime(e.duration);
-            html += '</td><td>' + details.wkgLow;
-            html += '</td><td>' + details.wkgHigh;
+            if (gradient >= 3.0) {
+                html += '</td><td>' + details.wkgLow;
+                html += '</td><td>' + details.wkgHigh;
+            } else {
+                html += '</td><td></td><td>';
+            }
             html += '</td><td>' + details.velocity;
         } else {
             html += '</td><td></td><td></td><td></td><td>';
@@ -559,7 +596,6 @@ showEfforts = function (idx) {
     }
     if (end_altitude_count > 0) {
         document.getElementById('end_altitude').innerHTML = end_altitude + 'm';
-        var gradient = 100 * (end_altitude - start_altitude) / (1000 * (segment.end - segment.start));
         gradient = Math.round(gradient * 10) / 10;
         document.getElementById('gradient').innerHTML = gradient + '%';
     }
@@ -784,9 +820,16 @@ function startListening() {
                         // if position within 200 meters before segment start
                         if (distanceFromSegmentStart >= 0 && distanceFromSegmentStart <= 0.2) {
                             // remember data
-                            efforts[segment.id][bib].beforeStart = rider;
-                            efforts[segment.id][bib].beforeStart.timeStamp = timeStamp;
-                            efforts[segment.id][bib].beforeStart.distance = distanceFromSegmentStart;
+                            var update = true;
+                            if (efforts[segment.id][bib].beforeStart && efforts[segment.id][bib].beforeStart.distance == distanceFromSegmentStart) {
+                                // rider hasn't moved, no update
+                                update = false;
+                            }
+                            if (update) {
+                                efforts[segment.id][bib].beforeStart = rider;
+                                efforts[segment.id][bib].beforeStart.timeStamp = timeStamp;
+                                efforts[segment.id][bib].beforeStart.distance = distanceFromSegmentStart;
+                            }
                         }
 
                         // if position within 200 meters after start and !start
@@ -810,9 +853,16 @@ function startListening() {
                         // if position within 200 meters before finish
                         if (distanceFromSegmentEnd >= 0 && distanceFromSegmentEnd <= 0.2) {
                             // remember data
-                            efforts[segment.id][bib].beforeEnd = rider;
-                            efforts[segment.id][bib].beforeEnd.timeStamp = timeStamp;
-                            efforts[segment.id][bib].beforeEnd.distance = distanceFromSegmentEnd;
+                            update = true;
+                            if (efforts[segment.id][bib].beforeEnd && efforts[segment.id][bib].beforeEnd.distance == distanceFromSegmentEnd) {
+                                // rider hasn't moved, no update
+                                update = false;
+                            }
+                            if (update) {
+                                efforts[segment.id][bib].beforeEnd = rider;
+                                efforts[segment.id][bib].beforeEnd.timeStamp = timeStamp;
+                                efforts[segment.id][bib].beforeEnd.distance = distanceFromSegmentEnd;
+                            }
                         }
 
 
