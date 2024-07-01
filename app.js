@@ -204,6 +204,28 @@ loadStages = function (xhttp) {
             myOption.value = stage_date;
             daySelect.appendChild(myOption);
         }
+    
+        // the official length differs from the distance used in the gps files
+        stages['2024-07-01'].length = 230.45;
+        stages['2024-07-02'].length = 139.56;
+        stages['2024-07-03'].length = 177.35;
+        stages['2024-07-04'].length = 163.43;
+        stages['2024-07-05'].length = 25.26;
+        stages['2024-07-06'].length = 183.4;
+        stages['2024-07-07'].length = 198.99;
+        stages['2024-07-09'].length = 187.26;
+        stages['2024-07-10'].length = 210.97;
+        stages['2024-07-11'].length = 203.59;
+        stages['2024-07-12'].length = 165.22;
+        stages['2024-07-13'].length = 151.88;
+        stages['2024-07-14'].length = 197.67;
+        stages['2024-07-16'].length = 188.58;
+        stages['2024-07-17'].length = 177.74;
+        stages['2024-07-18'].length = 179.55;
+        stages['2024-07-19'].length = 144.59;
+        stages['2024-07-20'].length = 132.79;
+        stages['2024-07-21'].length = 33.64;
+
         if (today < first_date) today = first_date;
         if (today > last_date) today = last_date;
         daySelect.value = today;
@@ -479,10 +501,12 @@ calcTime = function (data, stageDistance) {
     var seconds = (distance / speed) * 3600.0;
     result.seconds = seconds;
     result.timeFromStart = pretyTime(seconds);
-    var t = data.timeStamp - seconds * 1000;
-    t = new Date(t);
+    var t = data.timeStamp - seconds;
+    t = new Date(t * 1000);
     console.log(t);
     result.start = t.toTimeString().substring(0,8);
+    result.kph = speed;
+    result.distance = distance;
     return result;
 }
 
@@ -564,7 +588,7 @@ showEfforts = function (idx) {
         /*
         if (t1) {
             realtime = calcTime(effort.afterStart, stage.length);
-            html += '</td><td>' + realtime.start;
+            html += '</td><td>' + realtime.start + '|' + realtime.seconds + '|' + realtime.timeFromStart + '|' + realtime.kph + '|' + realtime.distance;
         } else {
             html += '</td><td>';
         }
