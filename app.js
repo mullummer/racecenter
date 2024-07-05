@@ -107,7 +107,7 @@ style.innerHTML += ' #efforts a{ color: #fc5200} ';
 document.head.appendChild(style);
 
 // html
-document.getElementById("q-app").innerHTML = '<div id="toolbar"><a href="#" id="pause"><i id="pause-icon" class="fas fa-pause-circle"></i></a><a href="#" id="button-settings"><i id="settings-icon" class="fas fa-wrench"></i></a><a id="button-peloton"><i id="peloton-icon" class="fas fa-bicycle"></i></a><a id="button-segments"><i id="segments-icon" class="fas fa-clock"></i></a><span class="distance"><span id="distance">...</span> km</span><div id="jerseyWrapper"></div></div><div id="settings"></div><div id="ridercard" class="row"></div><div id="rows">&nbsp; waiting for data...</div><div id="segments" class="row"><div id="segments_form"></div><div class="row"><div id="segment_list" class="col-3"></div><div id="efforts" class="col-9"></div></div></div>';
+document.getElementById("q-app").innerHTML = '<div id="toolbar"><a href="#" id="pause"><i id="pause-icon" class="fas fa-pause-circle"></i></a><a href="#" id="button-settings"><i id="settings-icon" class="fas fa-wrench"></i></a><a id="button-peloton"><i id="peloton-icon" class="fas fa-bicycle"></i></a><a id="button-segments"><i id="segments-icon" class="fas fa-clock"></i></a><span class="distance"><span id="distance">...</span> km</span><div id="jerseyWrapper"></div></div><div id="settings"></div><div id="ridercard" class="row"></div><div id="rows">&nbsp; waiting for data...</div><div id="segments" class="row"><div id="segments_form"></div><div class="row"><div id="segment_list" class="col-3"></div><div id="efforts" class="col-9"></div><div id="effort_details"></div></div></div>';
 
 // segments
 document.getElementById('segments_form').innerHTML = '<p>Segment in stage <select id="form_stage"></select> starts at (km) <input id="form_start" type="number"> and ends at <input id="form_end" type="number">. Name: <input id="form_name" type="text"><button id="form_button">Add Segment</button>'
@@ -204,6 +204,7 @@ loadStages = function (xhttp) {
             myOption.value = stage_date;
             daySelect.appendChild(myOption);
         }
+        daySelect.onchange = function () {showSegments(this.value)}
     
         // the official length differs from the distance used in the gps files
         stages['2024-07-01'].length = 230.45;
@@ -236,7 +237,7 @@ loadStages = function (xhttp) {
         document.getElementById('rows').innerHTML += '<br>' + tmp.length + ' stages loaded';
 
         readSegments();
-        showSegments();
+        showSegments(today);
     }
 }
 
@@ -404,7 +405,7 @@ deleteSegment = function(id) {
         document.getElementById('efforts').innerHTML = '';
     }
 
-    showSegments();
+    showSegments(today);
 }
 
 
@@ -431,6 +432,21 @@ compareEffort = function (a, b) {
         }
         return 0
     } else return 2;
+}
+
+effortDetails = function(bib){
+    var effort = efforts[selectedSegment][bib];
+    var html = '<br><br><h4>Effort Details'+riders[bib].lastname + ' ' + riders[bib].lastname +'</h4><table>';
+    html += '<tr><td></td><td>Before start</td><td>After start</td><td>Before end</td><td>After end</td></tr>';
+    html += '<tr id="effort_time"><td>Time</td><td class="bs"></td><td class="as"></td><td class="be"></td><td class="ae"></td></tr>';
+    html += '<tr id="effort_distance"><td>Km to finish</td><td class="bs"></td><td class="as"></td><td class="be"></td><td class="ae"></td></tr>';
+    html += '<tr id="effort_longitude"><td>Longitude</td><td class="bs"></td><td class="as"></td><td class="be"></td><td class="ae"></td></tr>';
+    html += '<tr id="effort_latitude"><td>Latitude</td><td class="bs"></td><td class="as"></td><td class="be"></td><td class="ae"></td></tr>';
+    html += '</table>';
+    document.getElementById('')
+    if (effort.beforeStart) {
+
+    }
 }
 
 wkg = function(low, high, distance, duration, RiderWeight) {
@@ -634,7 +650,7 @@ showEfforts = function (idx) {
     
 }
 
-showSegments = function () {
+showSegments = function (day) {
     // today's segments for adding efforts
     todaysSegments = [];
     for (var i = 0; i < segments.length; i++) {
@@ -645,7 +661,7 @@ showSegments = function () {
     // segments for selection of efforts
     var html = '';
     for (let s in stages) {
-        if (s >= today) {
+        if (s >= day) {
             html += '<h4>' + stages[s].name + '</h4>';
             for (var i = 0; i < segments.length; i++) {
                 if (segments[i].date == s) {
@@ -672,7 +688,7 @@ mySegment = function() {
         document.getElementById('form_name').value
     );
     saveSegments();
-    showSegments();
+    showSegments(today);
     document.getElementById('form_start').value = '';
     document.getElementById('form_end').value = '';
     document.getElementById('form_name').value = '';
@@ -807,9 +823,7 @@ function startListening() {
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
-                    if (rider.Bib != '13') {
                         html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + pretyTime(gap) + '</span></div></div>';
-                    }
                     if (gap > 0) previous_gap = gap;
 
                     //
@@ -936,6 +950,7 @@ function startListening() {
         }
     });
 }
+
 
 
 
