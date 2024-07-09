@@ -91,6 +91,11 @@ document.body.className = document.body.className.replace("body--dark","");
 var style = document.createElement('style');
 style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .yellow div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .orange div { background-color: '+ settings.mycolor +'; color: #fff}  .slow span {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause, #button-settings, #button-peloton, #button-segments {font-size: 40px; margin-left: 2px} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px }';
 style.innerHTML += ' #jerseyWrapper a {width: 2.5%} #jerseyWrapper img {max-width:100%}';
+style.innerHTML += ' .darkblue div {background-color: #00008b; color: #fff}';
+style.innerHTML += ' .babyblue div {background-color: #BFD7ED}';
+style.innerHTML += ' .red div {background-color: #ff0000; color: #fff}';
+style.innerHTML += ' .grey div {background-color: #aaa;}';
+style.innerHTML += ' .pink div {background-color: #FFB6C1;}';
 style.innerHTML += ' #settings { display: none} #settings input {width: 500px;}';
 style.innerHTML += ' .bib {background-color: #fff; color: #000; font-size: 8px; border: 1px solid #000; padding-left: 1px; padding-right: 1px;}';
 style.innerHTML += ' .color {border: 1px solid #000; padding: 2px; } .color div {height: 65px;} ';
@@ -746,10 +751,15 @@ riderCard = function (bib) {
     html += '  <span><span data-bib="#123" class="flag flag--with-bib js-display-lazy flag--'+rider.nationality+'"></span></span>&nbsp;' + rider.lastname + ' ' + rider.firstname;
     html += '</div>';
     html += '<div class="select_color col-3 row">';
-    html += '  <div id="white"  class="color white col-3 cursor-pointer"><div></div></div>';
-    html += '  <div id="yellow" class="color yellow col-3 cursor-pointer"><div></div></div>';
-    html += '  <div id="green"  class="color green col-3 cursor-pointer"><div></div></div>';
-    html += '  <div id="orange"  class="color orange col-3 cursor-pointer"><div></div></div>';
+    html += '  <div id="white"  class="color white col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="yellow" class="color yellow col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="green"  class="color green col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="orange"  class="color orange col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="darkblue"  class="color darkblue col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="babyblue"  class="color babyblue col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="red"  class="color red col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="grey"  class="color grey col-1 cursor-pointer"><div></div></div>';
+    html += '  <div id="pink"  class="color pink col-1 cursor-pointer"><div></div></div>';
     html += '</div>';
     html += '<div class="col-3">';
     html += '  <a id="close-rider-card">close</a>';
@@ -767,6 +777,11 @@ riderCard = function (bib) {
             elm.className = elm.className.replace("green","");
             elm.className = elm.className.replace("orange","");
             elm.className = elm.className.replace("white","");
+            elm.className = elm.className.replace("darkblue","");
+            elm.className = elm.className.replace("babyblue","");
+            elm.className = elm.className.replace("pink","");
+            elm.className = elm.className.replace("grey","");
+            elm.className = elm.className.replace("red","");
             elm.className += ' ' + this.id
             saveSettings();
         }
