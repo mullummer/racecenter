@@ -212,25 +212,9 @@ loadStages = function (xhttp) {
         daySelect.onchange = function () {showSegments(this.value)}
     
         // the official length differs from the distance used in the gps files
-        stages['2024-07-01'].length = 230.45;
-        stages['2024-07-02'].length = 139.56;
-        stages['2024-07-03'].length = 177.35;
-        stages['2024-07-04'].length = 163.43;
-        stages['2024-07-05'].length = 25.26;
-        stages['2024-07-06'].length = 183.4;
-        stages['2024-07-07'].length = 198.99;
-        stages['2024-07-09'].length = 187.26;
-        stages['2024-07-10'].length = 210.97;
-        stages['2024-07-11'].length = 203.59;
-        stages['2024-07-12'].length = 165.22;
-        stages['2024-07-13'].length = 151.88;
-        stages['2024-07-14'].length = 197.67;
-        stages['2024-07-16'].length = 188.58;
-        stages['2024-07-17'].length = 177.74;
-        stages['2024-07-18'].length = 179.55;
-        stages['2024-07-19'].length = 144.59;
-        stages['2024-07-20'].length = 132.79;
-        stages['2024-07-21'].length = 33.64;
+        stages['2024-08-12'].length = 122.96;
+        stages['2024-08-13'].length = 69.6;
+
 
         if (today < first_date) today = first_date;
         if (today > last_date) today = last_date;
@@ -272,95 +256,9 @@ generateSegments = function  () {
         version = parseInt(localStorage.getItem(race + '-version'));
     }
     if (version < 8) {
+	    /*
         addSegment('2024-06-29',39.94,44.54,'San Godenzo(fine paese)-->Cavallino(bivio 3 faggi)',3924978)
-        addSegment('2024-06-29',75.14,77.84,'Sp24 Climb',1439320)
-        addSegment('2024-06-29',87.68,98.46,'Carnaio da santa sofia fino al bar',15711521)
-        addSegment('2024-06-29',129.78,134.18,'BARBOTTO',18325988)
-        addSegment('2024-06-29',130.16,140.04,'Mercato - Perticara',26174087)
-        addSegment('2024-06-29',152.38,157.16,'Salita San Leo da Secchiano',15799223)
-        addSegment('2024-06-29',162.84,167.02,'Via Montemaggio, 109 Climb',763322)
-        addSegment('2024-06-29',172.72,175.6,'Salita: Fiorentino da Chiesanuova',1282316)
-        addSegment('2024-06-29',175.7,179.24,'da_Rotonda Fiorentino (480m) a_Rotonda V. Fed. D\'Urbino (650m)',25880893)
-        addSegment('2024-06-29',177.26,179.26,'Murata_Vecchia Stazione Climb',6695531)
-        addSegment('2024-06-30',71.92,74.02,'Monticino (da Brisighella)',1254541)
-        addSegment('2024-06-30',136.6,140.16,'Botteghino di zocca',1472407)
-        addSegment('2024-06-30',147.88,150.72,'Rastignano - Montecalvo',6649583)
-        addSegment('2024-06-30',165.86,170.46,'San Luca orfanalle + Montealbano',12999239)
-        addSegment('2024-07-01',154.32,156.38,'Barbaresco (Neive Via Tanaro)',36946526)
-        addSegment('2024-07-01',178,181.06,'Côte de Sommariva Perno',36944531)
-        addSegment('2024-07-02',40.86,50.36,'Pragelato-Sestriere',25065812)
-        addSegment('2024-07-02',41.76,50.8,'Pragelato - Colle del Sestriere',4787732)
-        addSegment('2024-07-02',43.48,50.48,'Sestriere (Traverses)',5394780)
-        addSegment('2024-07-02',47.7,50.4,'salita sestriere da bivio borgata',25052649)
-        addSegment('2024-07-02',94.24,120.64,'149 Col du Galibier #100cols',17975187)
-        addSegment('2024-07-02',99.96,111.82,'Col du Lautaret',5906900)
-        addSegment('2024-07-02',112.1,120.66,'Col du Lautaret - Col du Galibier',18328881)
-        addSegment('2024-07-03',139.68,142.72,'Côte de Lhuis',36903320)
-        addSegment('2024-07-06',30.12,32.46,'Côte de Villy-en-Auxois',37052530)
-        addSegment('2024-07-06',35.86,38.74,'Côte de Verrey-sous-Salmaise',36945716)
-        addSegment('2024-07-06',110.5,113.08,'D129 Climb',742691)
-        addSegment('2024-07-07',66.78,69.48,'Côte de Baroville',37052658)
-        addSegment('2024-07-07',105.18,107.4,'Côte de Val Frion',37052677)
-        addSegment('2024-07-10',87.32,89.68,'Auliac Premier Climb',4472185)
-        addSegment('2024-07-10',164.8,168.64,'Col de Néronne',1974281)
-        addSegment('2024-07-10',164.86,179.96,'Col de Neronne + Puy Mary - LaFlammeRouge verified',25674914)
-        addSegment('2024-07-10',174.58,180,'Pas de Peyrol (Puy Mary)',12403656)
-        addSegment('2024-07-10',191.88,196.32,'Col du Perthus',12403896)
-        addSegment('2024-07-10',205.04,208.36,'Col de Font de Cère',12617625)
-        addSegment('2024-07-11',60.12,62.8,'Côte d\'Autoire',36944344)
-        addSegment('2024-07-11',82.16,84.2,'D32 Climb',808540)
-        addSegment('2024-07-11',133.44,135.46,'Côte de Montcléra',37052970)
-        addSegment('2024-07-13',61.52,64.06,'Tourmalet from west, approach segment',618330)
-        addSegment('2024-07-13',71.7,89.4,'Col du Tourmalet (Esterre STOP - top)',10432453)
-        addSegment('2024-07-13',81.36,89.48,'Tourmalet - Official Climb - from Super Bareges - VeloTopo.com',17767064)
-        addSegment('2024-07-13',84.62,89.58,'last 5k',12993508)
-        addSegment('2024-07-13',106.72,123.42,'Hourquette d\'Ancizan - Official TDF Climb - from Ste-Marie - VeloTopo.com',14629962)
-        addSegment('2024-07-13',116.32,123.4,'_Hourquette_depuis_rivière',14736253)
-        addSegment('2024-07-13',141.16,148.56,'PLAT D\'ADET - 1ère partie - Espiaube',15772992)
-        addSegment('2024-07-13',146.24,148.56,'Soulan - Espiaube',18340407)
-        addSegment('2024-07-14',1.7,6.72,'loudervielle - col de Peyresourde 5km',18385037)
-        addSegment('2024-07-14',2.44,4.92,'Epingle Dr. - prairies de Balestas 2.5',20913118)
-        addSegment('2024-07-14',40.1,45.1,'Col de Mentre',24695157)
-        addSegment('2024-07-14',43.88,49.9,'sortie boutx-mente',15262303)
-        addSegment('2024-07-14',61.4,65.34,'Portet-d\'Aspet - Official TDF Climb - from Casartelli Monument - VeloTopo.com',17974321)
-        addSegment('2024-07-14',129.06,138.6,'Col D\'Agnès (Aulus)',15694069)
-        addSegment('2024-07-14',143.38,147.12,'Lers - Depuis croisement Agnes',25161765)
-        addSegment('2024-07-14',181.82,197.46,'Plateau du Beille No26 Greatest TDF Climbs',16621310)
-        addSegment('2024-07-14',192.42,197.58,'Beille Last 5s',10545411)
-        addSegment('2024-07-17',138.88,145.62,'Col Bayard',36908137)
-        addSegment('2024-07-17',160.06,166.24,'Col du Noyer',36152797)
-        addSegment('2024-07-17',173.76,176.94,'Montée Superdévoluy',5115480)
-        addSegment('2024-07-18',0.02,2.82,'Montée virage route de veynes',25566301)
-        addSegment('2024-07-18',28.18,30.64,'D937 Climb',1094291)
-        addSegment('2024-07-18',55.42,57.7,'Route Du Coin Climb',717475)
-        addSegment('2024-07-18',71.88,74.42,'Maissorel Climb',4132450)
-        addSegment('2024-07-18',92.2,95.62,'Montée de manse',18431847)
-        addSegment('2024-07-18',113.98,120.84,'montée de saint apo entière',9334954)
-        addSegment('2024-07-18',135.44,139.34,'Côte des Demoiselles Coiffées',15510278)
-        addSegment('2024-07-19',23.78,42.52,'Col de Vars (Guillestre)',15768721)
-        addSegment('2024-07-19',64.3,87.44,'Jausiers - Cime de la Bonette',22987963)
-        addSegment('2024-07-19',65.34,86.4,'Col de la Bonette',17922529)
-        addSegment('2024-07-19',84.96,87.38,'LAST 2.5KM',15640495)
-        addSegment('2024-07-19',128.44,144.28,'Isola - Isola 2000 (Rond-point)',15181142)
-        addSegment('2024-07-19',128.46,131.66,'Isola section Lombarde',17922834)
-        addSegment('2024-07-19',141.46,144.28,'mene to isola 2000 climb',18043539)
-        addSegment('2024-07-20',9.24,13.3,'Route de Tram',3347315)
-        addSegment('2024-07-20',14.82,24.7,'Col de Braus Officiel',26485936)
-        addSegment('2024-07-20',14.84,24.68,'COL DE BRAUS (FULL / CORRECT LENGTH)',9600585)
-        addSegment('2024-07-20',14.86,18.96,'L\'Escarène > Saint-Laurent-du-Touët by Blausasc trail',25509791)
-        addSegment('2024-07-20',19.5,22.32,'BRAUS: SWITCHBACKS - LONG VERSION',9630474)
-        addSegment('2024-07-20',21.54,24.7,'Braus (last 3km)',14343073)
-        addSegment('2024-07-20',35.82,59.76,'Col de Turini',16273563)
-        addSegment('2024-07-20',38.14,45.34,'montée avant moulinet',12453557)
-        addSegment('2024-07-20',38.96,59.76,'Climb Turini officiel ASPC',12051162)
-        addSegment('2024-07-20',49.12,59.76,'climb Turini final officiel ASPC',12051177)
-        addSegment('2024-07-20',79.08,95.86,'DEMARENATOR Colmiane',20216158)
-        addSegment('2024-07-20',88.06,90.84,'Route De La Colmiane Climb',1429213)
-        addSegment('2024-07-20',90.52,95.58,'Col de st martin',19879013)
-        addSegment('2024-07-20',117.1,130.06,'Couillole Partiel',14334653)
-        addSegment('2024-07-21',5.42,11.08,'Mont des Mules',581403)
-        addSegment('2024-07-21',5.6,9.9,'Mont des Mules Officiel',28085500)
-        addSegment('2024-07-21',5.9,9.42,'Souvenir Bajoli',11242721)
+		*/
         }
 
     localStorage.setItem(race + '-version','8');
