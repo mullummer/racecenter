@@ -257,13 +257,18 @@ generateSegments = function  () {
     if (localStorage.getItem(race + '-version')) {
         version = parseInt(localStorage.getItem(race + '-version'));
     }
-    if (version < 8) {
+    if (version < 9) {
+addSegment('45521',45.76,57.78,'Col de la Serra',36912429);
+addSegment('45521',57.88,69.88,'Col de la Serra - descent',0);
+addSegment('45521',152.54,156.56,'Les Villards -> St Jean',16411751);
+addSegment('45521',159.4,166.24,'Montée du Chinaillon',36912462);
+
 	    /*
         addSegment('2024-06-29',39.94,44.54,'San Godenzo(fine paese)-->Cavallino(bivio 3 faggi)',3924978)
 		*/
         }
 
-    localStorage.setItem(race + '-version','8');
+    localStorage.setItem(race + '-version','9');
 }
 
 readSegments = function () {
