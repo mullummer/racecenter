@@ -214,6 +214,8 @@ loadStages = function (xhttp) {
         // the official length differs from the distance used in the gps files
         stages['2024-08-12'].length = 122.96;
         stages['2024-08-13'].length = 69.6;
+        stages['2024-08-17'].length = 166.34;
+        stages['2024-08-18'].length = 149.87;
 
 
         if (today < first_date) today = first_date;
