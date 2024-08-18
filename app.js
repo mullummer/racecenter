@@ -271,7 +271,7 @@ addSegment('2024-08-17',159.4,166.24,'Montée du Chinaillon',36912462);
 addSegment('2024-08-18',78.84,87.3,'First part Glandon',0);
 addSegment('2024-08-18',89.38,98.02,'Part Col du Glandon',1872395);
 addSegment('2024-08-18',98.52,120.16,'Col du Glandon long descent',0);
-addSegment('2024-08-18',136.12,148.18,'Alpe d'Huez',652851);
+addSegment('2024-08-18',136.12,148.18,'Alpe d\'Huez',652851);
         }
     localStorage.setItem(race + '-version','11');
 }
