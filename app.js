@@ -258,17 +258,22 @@ generateSegments = function  () {
         version = parseInt(localStorage.getItem(race + '-version'));
     }
     if (version < 10) {
-addSegment('2024-08-17',45.76,57.78,'Col de la Serra',36912429)
-addSegment('2024-08-17',57.88,69.88,'Col de la Serra - descent',0)
-addSegment('2024-08-17',152.54,156.56,'Les Villards -> St Jean',16411751)
-addSegment('2024-08-17',159.4,166.24,'Montée du Chinaillon',36912462)
+addSegment('2024-08-17',45.76,57.78,'Col de la Serra',36912429);
+addSegment('2024-08-17',57.88,69.88,'Col de la Serra - descent',0);
+addSegment('2024-08-17',152.54,156.56,'Les Villards -> St Jean',16411751);
+addSegment('2024-08-17',159.4,166.24,'Montée du Chinaillon',36912462);
 
 	    /*
         addSegment('2024-06-29',39.94,44.54,'San Godenzo(fine paese)-->Cavallino(bivio 3 faggi)',3924978)
 		*/
         }
-
-    localStorage.setItem(race + '-version','10');
+    if (version < 11) {
+addSegment('2024-08-18',78.84,87.3,'First part Glandon',0);
+addSegment('2024-08-18',89.38,98.02,'Part Col du Glandon',1872395);
+addSegment('2024-08-18',98.52,120.16,'Col du Glandon long descent',0);
+addSegment('2024-08-18',136.12,148.18,'Alpe d'Huez',652851);
+        }
+    localStorage.setItem(race + '-version','11');
 }
 
 readSegments = function () {
