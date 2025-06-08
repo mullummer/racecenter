@@ -209,11 +209,15 @@ loadStages = function (xhttp) {
         }
         daySelect.onchange = function () {showSegments(this.value)}
     
-        // the official length differs from the distance used in the gps files
-        stages['2024-08-12'].length = 122.96;
-        stages['2024-08-13'].length = 69.6;
-        stages['2024-08-17'].length = 166.34;
-        stages['2024-08-18'].length = 149.87;
+        // the official distance differs from the distance used in the gps files
+        stages['2025-06-08'].length = 195.74;
+        stages['2025-06-09'].length = 204.6;
+        stages['2025-06-10'].length = 207.12;
+        stages['2025-06-11'].length = 17.4;
+        stages['2025-06-12'].length = 182.9;
+        stages['2025-06-13'].length = 126.68;
+        stages['2025-06-14'].length = 131.59;
+        stages['2025-06-15'].length = 133.28;
 
 
         if (today < first_date) today = first_date;
