@@ -210,14 +210,29 @@ loadStages = function (xhttp) {
         daySelect.onchange = function () {showSegments(this.value)}
     
         // the official distance differs from the distance used in the gps files
-        stages['2025-06-08'].length = 195.74;
-        stages['2025-06-09'].length = 204.6;
-        stages['2025-06-10'].length = 207.12;
-        stages['2025-06-11'].length = 17.4;
-        stages['2025-06-12'].length = 182.9;
-        stages['2025-06-13'].length = 126.68;
-        stages['2025-06-14'].length = 131.59;
-        stages['2025-06-15'].length = 133.28;
+        stages['2025-07-05'].length = 184.83;
+        stages['2025-07-06'].length = 209.06;
+        stages['2025-07-07'].length = 178.25;
+        stages['2025-07-08'].length = 174.14;
+        stages['2025-07-09'].length = 32.91;
+        stages['2025-07-10'].length = 201.49;
+        stages['2025-07-11'].length = 196.98;
+        stages['2025-07-12'].length = 171.3;
+        stages['2025-07-13'].length = 174.09;
+        stages['2025-07-14'].length = 165.26;
+
+        stages['2025-07-16'].length = 156.7;
+        stages['2025-07-17'].length = 180.54;
+        stages['2025-07-18'].length = 10.87;
+        stages['2025-07-19'].length = 182.53;
+        stages['2025-07-20'].length = 169.27;
+
+        stages['2025-07-22'].length = 171.41;
+        stages['2025-07-23'].length = 160.35;
+        stages['2025-07-24'].length = 171.48;
+        stages['2025-07-25'].length = 129.9;
+        stages['2025-07-26'].length = 184.12;
+        stages['2025-07-27'].length = 132.25;
 
 
         if (today < first_date) today = first_date;
