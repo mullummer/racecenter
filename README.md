@@ -1,4 +1,4 @@
-# racecenter
+# Racecenter
 
 Gives a better view of all riders in the peloton at Dauphine/TDF racecenter page/
 For example
@@ -26,3 +26,11 @@ It can be difficult to see if riders are on their spare bike and the data comes 
 Hairpin corners can also influence the gps data
 
 Live data probably starts when tv coverage starts. 
+
+
+# Update 2025
+
+There is no individual data available.
+
+app-2025.js uses the group data. I assume the group data is linked to the GPS of the motards.
+So, it's less usefull but better than nothing
