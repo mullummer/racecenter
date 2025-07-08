@@ -34,3 +34,4 @@ There is no individual data available.
 
 app-2025.js uses the group data. I assume the group data is linked to the GPS of the motards.
 So, it's less usefull but better than nothing
+The segments don't work yet, I can make them work. But also not very useful when it's linked to a motard
