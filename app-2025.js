@@ -736,7 +736,7 @@ function startListening() {
             var html = '';
             var previous_gap = 0;
             console.log(d.bind);
-            if (d.bind == 'pack-' + year + '-3') { 
+            if (d.bind.substring(0,9) == 'pack-' + year ) { 
                 console.log(d.data.groups);
                 for (var g=0; g < d.data.groups.length; g++) {
                     var group = d.data.groups[g];
