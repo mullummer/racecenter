@@ -764,7 +764,7 @@ function startListening() {
                 if (!paused) {
                     if (sound != "") {
                         // annoying beep
-                        playBeep(240,50);
+                        // playBeep(240,50);
                     };
                     document.getElementById("rows").innerHTML = html + '</div>';
                 }
