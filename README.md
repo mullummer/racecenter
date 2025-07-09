@@ -31,6 +31,7 @@ Live data probably starts when tv coverage starts.
 # Update 2025
 
 There is no individual data available.
+There are dure the first ITT
 
 app-2025.js uses the group data. I assume the group data is linked to the GPS of the motards.
 So, it's less usefull but better than nothing
