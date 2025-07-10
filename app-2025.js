@@ -735,9 +735,7 @@ function startListening() {
             var d = JSON.parse(e.data);
             var html = '';
             var previous_gap = 0;
-            console.log(d.bind);
             if (d.bind.substring(0,9) == 'pack-' + year ) { 
-                console.log(d.data.groups);
                 for (var g=0; g < d.data.groups.length; g++) {
                     var group = d.data.groups[g];
                     html += '<div class="row group">';
@@ -762,10 +760,7 @@ function startListening() {
                     html += '</div>';
                 }
                 if (!paused) {
-                    if (sound != "") {
-                        // annoying beep
-                        // playBeep(240,50);
-                    };
+
                     document.getElementById("rows").innerHTML = html + '</div>';
                 }
 
@@ -777,164 +772,7 @@ function startListening() {
 
 
             /* nodata in 2025 */
-            if (d.bind == 'telemetryCompetitor-' + year) { 
-                // all data has been loaded, process snapshot
-                var sound = "";
-                var riders = d.data.Riders;
-                var timeStamp = d.data.TimeStamp;
-                for (var i = 0; i < riders.length; i++) {
-                    var rider = riders[i];
-                    var bib = rider.Bib;
-                    if (i == 0) { document.getElementById("distance").innerHTML = rider.kmToFinish}
-                    var gap = rider.secToFirstRider;
-                    var speed = rider.kph;
-                    var speedAvg = rider.kphAvg;
-                    var extra_class = '';
-                    if ((gap - previous_gap) > settings.min_gap) {
-                        html += '</div><div class="row group">';
-                    }
-                    if (settings.beep_for_all && speed < settings.max_slow_speed) {
-                        sound = 'sound1';
-                    }
-                    if (selected_team == '') {
-                        if (settings.riders[bib]) {
-                            extra_class += ' ' + settings.riders[bib].color;
-                        }
-                    } else {
-                        if (peloton[rider.Bib].$team.split(':')[1] == selected_team) extra_class += ' team';
-                    }
-                    if (speed < settings.max_slow_speed) { extra_class += ' slow'; };
-                    bib_html = '';
-                    if (show_bibs) {
-                        bib_html = '<span class="bib">'+rider.Bib+'</span> ';
-                    }
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + pretyTime(gap) + '</span></div></div>';
-                    if (gap > 0) previous_gap = gap;
-
-                    //
-                    // start efforts
-                    //
-
-                    // loop through today's segments
-                    for (var s = 0; s < todaysSegments.length; s++) {
-                        var updateStorage = false;
-                        
-                        var segment = todaysSegments[s];
-                        var kmFromStart = stageDistance - rider.kmToFinish;
-                        var distanceFromSegmentStart = segment.start - kmFromStart;
-                        var distanceFromSegmentEnd   = segment.end   - kmFromStart;
-
-                        // init effort
-                        if (!efforts[segment.id]) {
-                            efforts[segment.id] = [];
-                        }
-                        if (!efforts[segment.id][bib]) {
-                            efforts[segment.id][bib] = {
-                                beforeStart : null,
-                                afterStart: null,
-                                beforeEnd: null,
-                                afterEnd: null,
-                                starttime: null,
-                                endtime: null,
-                                duration: null
-                            }
-                        }
-
-                        // if position within 200 meters before segment start
-                        if (distanceFromSegmentStart >= 0 && distanceFromSegmentStart <= 0.2) {
-                            // remember data
-                            var update = true;
-                            if (efforts[segment.id][bib].beforeStart && efforts[segment.id][bib].beforeStart.distance == distanceFromSegmentStart) {
-                                // rider hasn't moved, no update
-                                update = false;
-                            }
-                            if (update) {
-                                efforts[segment.id][bib].beforeStart = rider;
-                                efforts[segment.id][bib].beforeStart.timeStamp = timeStamp;
-                                efforts[segment.id][bib].beforeStart.distance = distanceFromSegmentStart;
-                            }
-                        }
-
-                        // if position within 200 meters after start and !start
-                        if (distanceFromSegmentStart <= 0 && distanceFromSegmentStart >= -0.2 && !efforts[segment.id][bib].afterStart) {
-                            // remember position: segment.effort[bib].beforeEnd = rider
-                            efforts[segment.id][bib].afterStart = rider;
-                            efforts[segment.id][bib].afterStart.timeStamp = timeStamp;
-                            efforts[segment.id][bib].afterStart.distance = -1 * distanceFromSegmentStart;
-                            // calculate start time: segment.effort[bib].start = time
-                            if (efforts[segment.id][bib].beforeStart) {
-                                // estimate time at the start
-                                updateStorage = true;
-                                efforts[segment.id][bib].starttime = getTimeStamp(
-                                    efforts[segment.id][bib].beforeStart.distance, 
-                                    efforts[segment.id][bib].afterStart.distance, 
-                                    efforts[segment.id][bib].beforeStart.timeStamp, 
-                                    efforts[segment.id][bib].afterStart.timeStamp 
-                                )
-                            }
-                        }
-                        // if position within 200 meters before finish
-                        if (distanceFromSegmentEnd >= 0 && distanceFromSegmentEnd <= 0.2) {
-                            // remember data
-                            update = true;
-                            if (efforts[segment.id][bib].beforeEnd && efforts[segment.id][bib].beforeEnd.distance == distanceFromSegmentEnd) {
-                                // rider hasn't moved, no update
-                                update = false;
-                            }
-                            if (update) {
-                                efforts[segment.id][bib].beforeEnd = rider;
-                                efforts[segment.id][bib].beforeEnd.timeStamp = timeStamp;
-                                efforts[segment.id][bib].beforeEnd.distance = distanceFromSegmentEnd;
-                            }
-                        }
-
-
-                        // if position within 200 meters after finish and !finish
-                        if (distanceFromSegmentEnd <= 0 && distanceFromSegmentEnd >= -0.2 && !efforts[segment.id][bib].afterEnd) {
-                            // remember data
-                            efforts[segment.id][bib].afterEnd = rider;
-                            efforts[segment.id][bib].afterEnd.timeStamp = timeStamp;
-                            efforts[segment.id][bib].afterEnd.distance = -1 * distanceFromSegmentEnd;
-                            if (efforts[segment.id][bib].beforeEnd) {
-                                // estimate time at the end
-                                efforts[segment.id][bib].endtime = getTimeStamp(
-                                    efforts[segment.id][bib].beforeEnd.distance, 
-                                    efforts[segment.id][bib].afterEnd.distance, 
-                                    efforts[segment.id][bib].beforeEnd.timeStamp, 
-                                    efforts[segment.id][bib].afterEnd.timeStamp 
-                                )
-                                // calculate duration if you also recorded the start
-                                if (efforts[segment.id][bib].starttime) {
-                                    efforts[segment.id][bib].duration = parseInt(efforts[segment.id][bib].endtime - efforts[segment.id][bib].starttime);
-                                    updateStorage = true;
-                                }
-                            }
-                        }
-
-                        if (updateStorage) {
-                            saveEfforts(segment.id);
-                            // refresh efforts
-                            if (segment.id == selectedSegment) showEfforts(selectedSegment); 
-                        }
-
-                    }
-                    // end todaysSegments loop
-
-
-                    //
-                    // end efforts
-                    //
-
-
-                }
-                if (!paused) {
-                    if (sound != "") {
-                        // annoying beep
-                        playBeep(240,50);
-                    };
-                    document.getElementById("rows").innerHTML = html + '</div>';
-                }
-            }
+            
         }
     });
 }
