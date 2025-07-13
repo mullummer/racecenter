@@ -290,7 +290,7 @@ snapToRoute = function (lat,long) {
     var index = 1; // row 1 contains a header
     var end = false;
     var result = {};
-    const step = 0.02; // the route contains gps points for every 20 meters
+    const step = 0.035; // the route contains gps points for every 20 meters - EDIT, No, there are sometimes gaps of 40 meters
 
     while (!end && index < route.length) {
         var line = route[index].split(';');
