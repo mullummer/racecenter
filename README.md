@@ -20,10 +20,10 @@ Riders with bib numbers in [gc] will be marked yellow (gc contenders).
 Riders with bib numbers in [green] will be marked green (sprinters).
 Start and end these lists also with a comma. For example: ",1,51,61,81,"
 
-Click on a team jersey to switch to mark the team members. Click again to reset
+Click on a team jersey to switch to mark the team members. Click again to reset.
 
 It can be difficult to see if riders are on their spare bike and the data comes from the bike on the car.
-Hairpin corners can also influence the gps data
+Hairpin corners can also influence the gps data.
 
 Live data probably starts when tv coverage starts. 
 
@@ -35,4 +35,12 @@ There are dure the first ITT
 
 app-2025.js uses the group data. I assume the group data is linked to the GPS of the motards.
 So, it's less usefull but better than nothing
-The segments don't work yet, I can make them work. But also not very useful when it's linked to a motard
+The segments don't work yet, I can make them work. But also not very useful when it's linked to a motard.
+
+# Update 2025 2
+
+There is some data. gps location and speed.
+I've made a version app-by-distance.js
+It uses a csv from the racecenter to calculate the distance to the finish by finding the closest route point.
+Keep testing the original app.js, I expect they'll fix it soon
+
