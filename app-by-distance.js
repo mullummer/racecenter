@@ -1,4 +1,16 @@
 // run script in javascript console on the live data page (https://racecenter.letour.fr/en/)
+/*************************************************************************************/
+/*************************************************************************************/
+// Because the data is not complete during the 2025 tour, this is the alternative script
+// gps data and speed is available. Gap and distance is not
+// this script calculaties the distance from the route csv and uses it to order and group riders
+// This might be useful until they fix the data
+// The gap setting won't work
+/*************************************************************************************/
+/*************************************************************************************/
+/*************************************************************************************/
+
+
 var default_settings = {
     riders: [],
     mycolor: '#ff4500',
