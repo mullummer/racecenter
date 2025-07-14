@@ -10,7 +10,6 @@
 /*************************************************************************************/
 /*************************************************************************************/
 
-
 var default_settings = {
     riders: [],
     mycolor: '#ff4500',
@@ -907,7 +906,7 @@ function startListening() {
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + (gap - kmToGo) + '</span></div></div>';
+                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + (Math.round((gap - kmToGo) * 100)/100) + '</span></div></div>';
                     if (gap > 0) previous_gap = gap;
 
                     //
