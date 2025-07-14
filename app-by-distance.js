@@ -32,6 +32,7 @@ var selectedSegment;
 var stageDistance;
 var segmentMapping = [];
 var route = [];
+var kmToGo = 0;
 
 if(!localStorage.getItem(race + '-settings')) {
     settings = default_settings;
@@ -232,7 +233,8 @@ loadStages = function (xhttp) {
         stages['2025-07-13'].length = 174.09;
         stages['2025-07-13'].profile = '/profils/2025/profile-09-64fcfe9220f7b0cef5dc0bdee9fbcffe.csv';
         stages['2025-07-14'].length = 165.26;
-
+        stages['2025-07-14'].profile = '/profils/2025/profile-10-39a5a2c6ff11993283070c892f069119.csv';
+        
         stages['2025-07-16'].length = 156.7;
         stages['2025-07-17'].length = 180.54;
         stages['2025-07-18'].length = 10.87;
@@ -290,7 +292,7 @@ snapToRoute = function (lat,long) {
     var index = 1; // row 1 contains a header
     var end = false;
     var result = {};
-    const step = 0.035; // the route contains gps points for every 20 meters - EDIT, No, there are sometimes gaps of 40 meters
+    const step = 0.035; // the route contains gps points for every 20 meters
 
     while (!end && index < route.length) {
         var line = route[index].split(';');
@@ -865,7 +867,11 @@ function startListening() {
                 for (var i = 0; i < riders.length; i++) {
                     var rider = riders[i];
                     var bib = rider.Bib;
-                    if (i == 0) { document.getElementById("distance").innerHTML = rider.kmToFinish}
+                    if (i == 0) { 
+                        document.getElementById("distance").innerHTML = rider.kmToFinish;
+                        kmToGo = rider.kmToFinish;
+
+                    }
                     // var gap = rider.secToFirstRider;
                     var gap = rider.kmToFinish;
                     var speed = rider.kph;
@@ -889,7 +895,7 @@ function startListening() {
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + gap + '</span></div></div>';
+                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + (gap - kmToGo) + '</span></div></div>';
                     if (gap > 0) previous_gap = gap;
 
                     //
