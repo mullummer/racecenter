@@ -137,10 +137,19 @@ saveSettings = function () {
 }
 
 // min_gap
-document.getElementById("settings").innerHTML += 'A new groups is formed when a gap is at least <select id="min_gap"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select> seconds<br><br>';
+document.getElementById("settings").innerHTML += 'A new groups is formed when a gap is at least <select id="min_gap"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select> seconds **** Does not work in this version, gaps are in kilometers!<br><br>';
 
 // max_slow_speed
 document.getElementById("settings").innerHTML += 'Mark rider when a rider\'s speed drops below <select id="max_slow_speed"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select> km/h<br><br>';
+
+// reset data
+document.getElementById("settings").innerHTML += '<hr><br><br>Browser storage is not unlimited, press button to clean up all segment leaderboards if leaderboards are not working<br><input type="button" value="Reset storage" id="reset-storage"><br><br><br> ';
+
+// calculate gps to distance
+document.getElementById("settings").innerHTML += '<hr><br><br><input type=text id="latitude" style="width: 100px" placeholder="latitude"><input type=text id="longitude" style="width: 100px" placeholder="longitude"><input type="button" value="Test GPS" id="stage-info-button"><br><br><br><div id="stage-info-layer"></div><br><br><br> ';
+
+
+
 
 
 // click events
@@ -157,6 +166,27 @@ document.getElementById("button-settings").onclick = function () {
         show_bibs = false;
     }
     return false;
+};
+
+// settings button
+document.getElementById("reset-storage").onclick = function () {
+    resetStorage();
+};
+
+// settings button
+document.getElementById("stage-info-button").onclick = function () {
+    var latitude = document.getElementById('latitude').value;
+    var longitude = document.getElementById('longitude').value;
+    var result = snapToRoute(latitude, longitude);
+    if (result) {
+        console.log(result);
+        var html = '';
+        html += 'Distance from route point: ' +  Math.round(result.delta * 1000) + ' meters<br>';
+        html += 'Route latitude, longitude: ' +  result.latitude + ' ' + result.longitude + '<br>';
+        html += 'KM Done: ' + result.kmdone + '<br>KM to go: ' + result.kmtogo + '<br>';
+        html += 'Altitude: ' + result.altitude + '<br>';
+    }
+    document.getElementById('stage-info-layer').innerHTML = html;
 };
 
 showTab = function (id) {
@@ -247,17 +277,28 @@ loadStages = function (xhttp) {
         stages['2025-07-14'].profile = '/profils/2025/profile-10-39a5a2c6ff11993283070c892f069119.csv';
         
         stages['2025-07-16'].length = 156.7;
+        stages['2025-07-16'].profile = '/profils/2025/profile-11-3c204c1c8d9d16c768c766e833e3850b.csv';
         stages['2025-07-17'].length = 180.54;
+        stages['2025-07-17'].profile = '/profils/2025/profile-12-791e5137ce27c736dd8a7854e0c6f416.csv';
         stages['2025-07-18'].length = 10.87;
+        stages['2025-07-18'].profile = '/profils/2025/profile-13-f9f86bc3c2464436debfa99534d9a999.csv';
         stages['2025-07-19'].length = 182.53;
+        stages['2025-07-19'].profile = '/profils/2025/profile-14-8dee7af5b1590735272528a2481aa800.csv';
         stages['2025-07-20'].length = 169.27;
+        stages['2025-07-20'].profile = '/profils/2025/profile-15-f0982eadbc92ff05085773cd6da0cc89.csv';
 
         stages['2025-07-22'].length = 171.41;
+        stages['2025-07-22'].profile = '/profils/2025/profile-16-6554c1ac51e72ef028e7d33317bec27b.csv';
         stages['2025-07-23'].length = 160.35;
+        stages['2025-07-23'].profile = '/profils/2025/profile-17-32e5b06bbbe296a8ce3c8d57eada1098.csv';
         stages['2025-07-24'].length = 171.48;
+        stages['2025-07-24'].profile = '/profils/2025/profile-18-f4dc03185d92869eea804c0126c67d0e.csv';
         stages['2025-07-25'].length = 129.9;
+        stages['2025-07-25'].profile = '/profils/2025/profile-19-909f23719f6c9c63203bf886f1c3e21d.csv';
         stages['2025-07-26'].length = 184.12;
+        stages['2025-07-26'].profile = '/profils/2025/profile-20-763ce0b225ccd6545b9102ffd4280bcf.csv';
         stages['2025-07-27'].length = 132.25;
+        stages['2025-07-27'].profile = '/profils/2025/profile-21-2587a91499f2e73616aca8daabdeaa1a.csv';
 
 
         if (today < first_date) today = first_date;
@@ -303,7 +344,7 @@ snapToRoute = function (lat,long) {
     var index = 1; // row 1 contains a header
     var end = false;
     var result = {};
-    const step = 0.035; // the route contains gps points for every 20 meters
+    const step = 0.04; // the route contains gps points for every 20 meters
 
     while (!end && index < route.length) {
         var line = route[index].split(';');
@@ -315,7 +356,7 @@ snapToRoute = function (lat,long) {
             shortest = distance;
             result.latitude = lat2;
             result.longitude = long2;
-            result.altitude = line[2];
+            result.altitude = parseFloat(line[2]);
             result.kmdone = line[7];
             result.kmtogo = line[8];
             result.delta = distance;
@@ -434,6 +475,15 @@ deleteSegment = function(id) {
     }
 
     showSegments(today);
+}
+
+resetStorage = function () {
+    // not prety, but it'll have to do. Don't want to remove to much, like fantasy team info
+    for (var i = 0; i < localStorage.length; i++){
+        if (localStorage.key(i).split('-').length == 5) {
+            localStorage.removeItem(localStorage.key(i));
+        }
+    }
 }
 
 
@@ -585,21 +635,30 @@ showEfforts = function (idx) {
             if (effort && effort.starttime) {
                 effort.bib = bib;
                 if (effort.beforeStart) {
-                    start_altitude += effort.beforeStart.mAlt;
-                    start_altitude_count++;
+                    if (effort.beforeStart.mAlt) {
+                        start_altitude += parseFloat(effort.beforeStart.mAlt);
+                        start_altitude_count++;    
+                    }
                 }
                 if (effort.afterStart) {
-                    start_altitude += effort.afterStart.mAlt;
-                    start_altitude_count++;
+                    if (effort.afterStart.mAlt) {
+                        start_altitude += parseFloat(effort.afterStart.mAlt);
+                        start_altitude_count++;    
+                    }
                 }
                 if (effort.beforeEnd) {
-                    end_altitude += effort.beforeEnd.mAlt;
-                    end_altitude_count++;
+                    if (effort.beforeEnd.mAlt) {
+                        end_altitude += parseFloat(effort.beforeEnd.mAlt);
+                        end_altitude_count++;    
+                    }
                 }
                 if (effort.afterEnd) {
-                    end_altitude += effort.afterEnd.mAlt;
-                    end_altitude_count++;
+                    if (effort.afterEnd.mAlt) {
+                        end_altitude += parseFloat(effort.afterEnd.mAlt);
+                        end_altitude_count++;    
+                    }
                 }
+                // console.log(start_altitude + ' - ' + start_altitude_count);
                 show_efforts.push(effort);
             }
         }
@@ -852,6 +911,7 @@ function startListening() {
                 var riders = d.data.Riders;
                 var timeStamp = d.data.TimeStamp;
 
+
                 // ***************************** poor data, let's calculate it ourselves **************************************
                 // ***************************** poor data, let's calculate it ourselves **************************************
                 // ***************************** poor data, let's calculate it ourselves **************************************
@@ -864,8 +924,10 @@ function startListening() {
                     
                     if (!r.error) {
                         riders[i].kmToFinish = r.kmtogo;
+                        riders[i].mAlt = r.altitude;
                     } else {
                         riders[i].kmToFinish = 9999;
+                        riders[i].mAlt = null;
                     }
                 }
                 // now order by kmtogo
@@ -877,6 +939,7 @@ function startListening() {
 
                 for (var i = 0; i < riders.length; i++) {
                     var rider = riders[i];
+
                     var bib = rider.Bib;
                     if (i == 0) { 
                         document.getElementById("distance").innerHTML = rider.kmToFinish;
@@ -912,6 +975,14 @@ function startListening() {
                     //
                     // start efforts
                     //
+
+                    // too much data to remember, make it more compact
+                    var riderTemp = rider;
+                    rider = {};
+                    rider.kmToFinish = riderTemp.kmToFinish;
+                    rider.mAlt = riderTemp.mAlt;
+
+
 
                     // loop through today's segments
                     for (var s = 0; s < todaysSegments.length; s++) {
