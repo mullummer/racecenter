@@ -44,6 +44,7 @@ var stageDistance;
 var segmentMapping = [];
 var route = [];
 var kmToGo = 0;
+var leaderTimes = [];
 
 if(!localStorage.getItem(race + '-settings')) {
     settings = default_settings;
@@ -341,45 +342,80 @@ haversineDistance = function(lat1, lon1, lat2, lon2) {
 
 snapToRoute = function (lat,long) {
     var shortest = 9999;
-    var index = 1; // row 1 contains a header
-    var end = false;
+    var index = 1; // first row contains a header
     var result = {};
-    const step = 0.04; // the route contains gps points for every 20 meters
+    const step = 0.04; // the route contains gps points for every 20-40 meters
 
-    while (!end && index < route.length) {
+    while (index < route.length) {
         var line = route[index].split(';');
         lat2 = line[0];
         long2 = line[1];
 
+        // distance in km
         var distance = haversineDistance(lat,long,lat2,long2);
+
         if (distance < shortest) {
             shortest = distance;
             result.latitude = lat2;
             result.longitude = long2;
             result.altitude = parseFloat(line[2]);
-            result.kmdone = line[7];
-            result.kmtogo = line[8];
+            result.kmdone = parseFloat(line[7]);
+            result.kmtogo = parseFloat(line[8]);
             result.delta = distance;
             result.index = index;
         }
 
         if (distance > (10 * step)) {
-            // larger than 200 meters
-            index += parseInt((distance - 9*step) / step);
+            // larger distance,let's take a larger step
+            index += parseInt(distance / step);
         } else {
+            // close, let's take baby steps
             index++;
         }
 
-        // if the gap grows and the shortest distance is small enough, let's finish searching
-        if (distance > shortest + 5 * step && shortest < 5 * step) {
-            end = true;
-        }
     }
 
-    result.error = (shortest > 5 * step);
+    result.error = (shortest > 0.05);
 
     return result;
 }
+
+
+/**
+ * @param {Array} leaderData - Array of objects [{ kmToGo: Number, timestamp: Number (ms) }]
+ * @param {Number} followerKmToGo - Distance to go of the follower (in km)
+ * @param {Number} followerTimestamp - Timestamp of the follower (in ms)
+ * @returns {Number|null} Gap in seconds, or null if interpolation is not possible
+ */
+calculateTimeGap = function (leaderData, followerKmToGo, followerTimestamp) {
+    if (!leaderData || leaderData.length < 2) return null;
+  
+    // Find two leader points around followerKmToGo
+    let before = null, after = null;
+  
+    for (let i = 0; i < leaderData.length - 1; i++) {
+      const curr = leaderData[i];
+      const next = leaderData[i + 1];
+  
+      if (curr.kmToGo >= followerKmToGo && next.kmToGo <= followerKmToGo) {
+        before = curr;
+        after = next;
+        break;
+      }
+    }
+  
+    // If follower is ahead of all leader points or behind all, we can't interpolate
+    if (!before || !after) return null;
+  
+    // Linear interpolation of leader timestamp at follower's kmToGo
+    const ratio = (before.kmToGo - followerKmToGo) / (before.kmToGo - after.kmToGo);
+    const leaderTimeAtFollowerDistance =
+      before.timestamp + ratio * (after.timestamp - before.timestamp);
+  
+    // Return gap in seconds
+    return (followerTimestamp - leaderTimeAtFollowerDistance) / 1;
+  }
+
 
 
 addSegment = function (d,start,end,name,strava) {
@@ -939,15 +975,36 @@ function startListening() {
 
                 for (var i = 0; i < riders.length; i++) {
                     var rider = riders[i];
+                    var gap;
 
                     var bib = rider.Bib;
                     if (i == 0) { 
                         document.getElementById("distance").innerHTML = rider.kmToFinish;
                         kmToGo = rider.kmToFinish;
-
+                        var leader = {};
+                        leader.kmToFinish = kmToGo;
+                        leader.timeStamp = timeStamp;
+                        if (kmToGo < 9000) {
+                            if (leaderTimes.length == 0 || leaderTimes.length > 0 && leaderTimes[leaderTimes.length-1].kmToFinish != kmToGo ) {
+                                // no duplicates
+                                leaderTimes.push(leader);
+                                // without errors, sorting shouldn't be needed :)
+                                leaderTimes.sort((a,b) => b.kmToFinish - a.kmToFinish);    
+                            }
+                        }
+                        showGap = 0;
+                    } else {
+                        showGap = calculateTimeGap(leaderTimes, rider.kmToFinish, timeStamp);
                     }
                     // var gap = rider.secToFirstRider;
                     var gap = rider.kmToFinish;
+
+                    if (showGap && showGap >= 0) {
+                        showGap = pretyTime(showGap) + 's';
+                    } else {
+                        // show gap in km
+                        showGap = (Math.round((gap - kmToGo) * 100)/100) + ' km';
+                    }
                     var speed = rider.kph;
                     var speedAvg = rider.kphAvg;
                     var extra_class = '';
@@ -969,7 +1026,7 @@ function startListening() {
                     if (show_bibs) {
                         bib_html = '<span class="bib">'+rider.Bib+'</span> ';
                     }
-                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + (Math.round((gap - kmToGo) * 100)/100) + '</span></div></div>';
+                        html += '<div id="r'+rider.Bib+'" title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go, bib:'+rider.Bib+'" class="rider col-md-2 ' + extra_class + '"><div><span>' + bib_html + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + showGap + '</span></div></div>';
                     if (gap > 0) previous_gap = gap;
 
                     //
