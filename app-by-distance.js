@@ -387,6 +387,7 @@ snapToRoute = function (lat,long) {
  * @param {Number} followerTimestamp - Timestamp of the follower (in ms)
  * @returns {Number|null} Gap in seconds, or null if interpolation is not possible
  */
+
 calculateTimeGap = function (leaderData, followerKmToGo, followerTimestamp) {
     if (!leaderData || leaderData.length < 2) return null;
   
@@ -397,10 +398,11 @@ calculateTimeGap = function (leaderData, followerKmToGo, followerTimestamp) {
       const curr = leaderData[i];
       const next = leaderData[i + 1];
   
-      if (curr.kmToGo >= followerKmToGo && next.kmToGo <= followerKmToGo) {
+      if (curr.kmToFinish >= followerKmToGo && next.kmToFinish <= followerKmToGo) {
         before = curr;
         after = next;
         break;
+
       }
     }
   
@@ -408,14 +410,13 @@ calculateTimeGap = function (leaderData, followerKmToGo, followerTimestamp) {
     if (!before || !after) return null;
   
     // Linear interpolation of leader timestamp at follower's kmToGo
-    const ratio = (before.kmToGo - followerKmToGo) / (before.kmToGo - after.kmToGo);
+    const ratio = (before.kmToFinish - followerKmToGo) / (before.kmToFinish - after.kmToFinish);
     const leaderTimeAtFollowerDistance =
-      before.timestamp + ratio * (after.timestamp - before.timestamp);
+      before.timeStamp + ratio * (after.timeStamp - before.timeStamp);
   
     // Return gap in seconds
-    return (followerTimestamp - leaderTimeAtFollowerDistance) / 1;
+    return (Math.round(followerTimestamp - leaderTimeAtFollowerDistance)) / 1;
   }
-
 
 
 addSegment = function (d,start,end,name,strava) {
