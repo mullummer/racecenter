@@ -294,12 +294,18 @@ loadStages = function (xhttp) {
         stages['2025-07-23'].profile = '/profils/2025/profile-17-32e5b06bbbe296a8ce3c8d57eada1098.csv';
         stages['2025-07-24'].length = 171.48;
         stages['2025-07-24'].profile = '/profils/2025/profile-18-f4dc03185d92869eea804c0126c67d0e.csv';
-        stages['2025-07-25'].length = 93;
-        stages['2025-07-25'].profile = '/profils/2025/profile-19-ef071b16bfd55a6629e2fc38ae2bdab5.csv';
+        stages['2025-07-25'].length = 129.9;
+        stages['2025-07-25'].profile = '/profils/2025/profile-19-909f23719f6c9c63203bf886f1c3e21d.csv';
         stages['2025-07-26'].length = 184.12;
         stages['2025-07-26'].profile = '/profils/2025/profile-20-763ce0b225ccd6545b9102ffd4280bcf.csv';
         stages['2025-07-27'].length = 132.25;
         stages['2025-07-27'].profile = '/profils/2025/profile-21-2587a91499f2e73616aca8daabdeaa1a.csv';
+
+        stages['2025-07-29'].length = 130.61;
+        stages['2025-07-29'].profile = '/profils/2025/profile-04-4f3840c9029de8ba225ffafb2e393268.csv';
+        stages['2025-07-30'].length = 165.74;
+        stages['2025-07-30'].profile = '/profils/2025/profile-05-e20987590cc64afd29ce1a74a3eca053.csv';
+
 
 
         if (today < first_date) today = first_date;
