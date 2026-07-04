@@ -228,8 +228,8 @@ loadStages = function (xhttp) {
         stages['2026-07-19'].length = 183.82;
 
         stages['2026-07-21'].length =  26.09;
-        stages['2026-07-22'].length = 185.15;
-        stages['2026-07-23'].length = 127.87;
+        stages['2026-07-22'].length = 174.61;
+        stages['2026-07-23'].length = 185.15;
         stages['2026-07-24'].length = 127.87;
         stages['2026-07-25'].length = 170.81;
         stages['2026-07-26'].length = 132.94;
