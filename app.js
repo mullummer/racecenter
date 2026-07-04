@@ -210,29 +210,29 @@ loadStages = function (xhttp) {
         daySelect.onchange = function () {showSegments(this.value)}
     
         // the official distance differs from the distance used in the gps files
-        stages['2026-07-04'].length = 184.83;
-        stages['2026-07-05'].length = 209.06;
-        stages['2026-07-06'].length = 178.25;
-        stages['2026-07-07'].length = 174.14;
-        stages['2026-07-08'].length = 32.91;
-        stages['2026-07-09'].length = 201.49;
-        stages['2026-07-10'].length = 196.98;
-        stages['2026-07-11'].length = 171.3;
-        stages['2026-07-12'].length = 174.09;
+        stages['2026-07-04'].length =  19.53;
+        stages['2026-07-05'].length = 168.40;
+        stages['2026-07-06'].length = 195.87;
+        stages['2026-07-07'].length = 181.87;
+        stages['2026-07-08'].length = 158.22;
+        stages['2026-07-09'].length = 186.17;
+        stages['2026-07-10'].length = 175.06;
+        stages['2026-07-11'].length = 180.37;
+        stages['2026-07-12'].length = 185.48;
 		
-        stages['2026-07-14'].length = 165.26;
-        stages['2026-07-15'].length = 156.7;
-        stages['2026-07-16'].length = 180.54;
-        stages['2026-07-17'].length = 10.87;
-        stages['2026-07-18'].length = 182.53;
-        stages['2026-07-19'].length = 169.27;
+        stages['2026-07-14'].length = 166.59;
+        stages['2026-07-15'].length = 161.29;
+        stages['2026-07-16'].length = 179.03;
+        stages['2026-07-17'].length = 205.78;
+        stages['2026-07-18'].length = 155.23;
+        stages['2026-07-19'].length = 183.82;
 
-        stages['2026-07-21'].length = 171.41;
-        stages['2026-07-22'].length = 160.35;
-        stages['2026-07-23'].length = 171.48;
-        stages['2026-07-24'].length = 129.9;
-        stages['2026-07-25'].length = 184.12;
-        stages['2026-07-26'].length = 132.25;
+        stages['2026-07-21'].length =  26.09;
+        stages['2026-07-22'].length = 185.15;
+        stages['2026-07-23'].length = 127.87;
+        stages['2026-07-24'].length = 127.87;
+        stages['2026-07-25'].length = 170.81;
+        stages['2026-07-26'].length = 132.94;
 
 
         if (today < first_date) today = first_date;
