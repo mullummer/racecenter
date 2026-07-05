@@ -739,6 +739,9 @@ function startListening() {
                 var sound = "";
                 var riders = d.data.Riders;
                 var timeStamp = d.data.TimeStamp;
+				// in 2026 riders aren't always ordered by gap
+				riders.sort(function (a,b) {if (a.secToFirstRider < b.secToFirstRider) {return -1} else {return 1}});
+
                 for (var i = 0; i < riders.length; i++) {
                     var rider = riders[i];
                     var bib = rider.Bib;
