@@ -650,7 +650,7 @@ document.getElementById('min_gap').addEventListener("change", function() {
 });
 document.getElementById('max_slow_speed').value = settings.max_slow_speed;
 document.getElementById('max_slow_speed').addEventListener("change", function() { 
-    settings.min_gap = document.getElementById('max_slow_speed').value;
+    settings.max_slow_speed = document.getElementById('max_slow_speed').value;
     saveSettings();
     console.log('max_slow_speed updated');
 });
